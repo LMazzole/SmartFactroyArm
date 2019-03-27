@@ -28,15 +28,25 @@ class Sensor {
     Sensor(const int pin);
 
     /**
-         * @brief 
-         * 
-         * @return true - 
-         * @return false - 
-         */
+    * @brief Construct a new Sensor object
+    * 
+    */
+    Sensor(const int pin, const int led);
+
+    /**
+      * @brief 
+      * 
+      * 
+      * checks the sensor for the thing
+      * 
+      * @return true if there is a thing in the sensor range
+      * @return false if there is no thing in the sensor range
+      */
     bool hasThing();
 
    private:
-    int sensorPin;
+    const int sensorPin;
+    const int ledPin;
 };
 
 #endif

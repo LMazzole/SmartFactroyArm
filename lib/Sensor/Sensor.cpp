@@ -1,26 +1,43 @@
+/**
+ * @file Sensor.cpp
+ * @brief 
+ * 
+ * @author Luca Mazzoleni (luca.mazzoleni@hsr.ch)
+ * 
+ * @version 1.1 - Description - {author} - {date}
+ * 
+ * @date 2019-03-27
+ * @copyright Copyright (c) 2019
+ * 
+ */
+
 #include "Sensor.h"
 
 Sensor::Sensor(const int pin)
-    : sensorPin(pin) {
+    : sensorPin(pin), ledPin(LED_BUILTIN) {
     DBFUNCCALLln("Sensor::Sensor()");
-    pinMode(pin, INPUT);
+    pinMode(sensorPin, INPUT);
+    pinMode(ledPin, OUTPUT);  //DO I NEED THIS?
 }
 
-/**
- * @brief 
- * 
- * 
- * checks the sensor for the thing
- * 
- * @return true if there is a thing in the sensor range
- * @return false if there is no thing in the sensor range
- */
+Sensor::Sensor(const int pin, const int led)
+    : sensorPin(pin), ledPin(led) {
+    DBFUNCCALLln("Sensor::Sensor()");
+    pinMode(sensorPin, INPUT);
+    pinMode(ledPin, OUTPUT);
+}
+
 bool Sensor::hasThing() {
     DBFUNCCALLln("Sensor::hasThing()");
     int value = !digitalRead(sensorPin);  // if Object detected PIN = LOW
+    DBFUNCCALLln(value);
     if (value) {
+        DBINFO1ln("Object detected");
+        digitalWrite(ledPin, HIGH);
         return true;
     } else {
+        DBINFO1ln("No Object detected");
+        digitalWrite(ledPin, LOW);
         return false;
     }
 }

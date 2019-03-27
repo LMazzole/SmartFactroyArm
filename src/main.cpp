@@ -17,12 +17,69 @@
 #include "PosConf.h"
 #include "Sensor.h"
 
-MyServo serv(PIN_SERVO);
-Sensor sensLinks(PIN_LB_SENSOR_LEFT);  //     Servo(int pin, int maxPulse, int minPulse);
-Sensor sensRechts(PIN_LB_SENSOR_RIGHT);
+//===Global Variables==========
 
-void (*funcPoint)(bool);  // states function pointer
-int opt = 0;              // used for state progress
+void (*funcPoint)() = nullptr;  // states function pointer
+bool toNextStatus = true;
+
+int opt = 0;  // used for state progress
+
+//===Generate Objects==========
+MyServo servo(PIN_SERVO);
+Sensor sensorLinks(PIN_LB_SENSOR_LEFT, PIN_LED_SENSOR_LEFT);  //     Servo(int pin, int maxPulse, int minPulse);
+Sensor sensorRechts(PIN_LB_SENSOR_RIGHT, PIN_LED_SENSOR_RIGHT);
+
+//=========FUNCTION-PROTOTYP=========
+/**
+ * @brief 
+ * 
+ * State I:
+ *   - go to rest position to drive without a thing
+ *   - emit signal ready
+ * 
+ * @return true - 
+ * @return false - 
+ */
+bool stat_getToRestPosition();
+
+/**
+ * @brief 
+ * 
+ * State II &  IV:
+ *   - waiting for signal, depending on signal switch to the needed state
+ * 
+ * @return true - 
+ * @return false - 
+ */
+bool stat_waitingForSignal();
+
+/**
+ * @brief 
+ * 
+ * State III:
+ *   - move arm to load position, thing falls into tray
+ *   - sensor reads if thing is in tray
+ *   - move thing to drive position
+ *   - emit signal ready to drive
+ * 
+ * @return true - 
+ * @return false - 
+ */
+bool stat_loadThing();
+
+/**
+ * @brief 
+ * 
+ * State V:
+ *   - move arm to unload position, thing falls from tray
+ *   - sensor reads if thing has fallen from tray
+ *   - move arm to rest position
+ *   - emit signal ready to drive
+ * 
+ * @return true - 
+ * @return false - 
+ */
+bool stat_unloadThing();
 
 /**
  * @brief 
@@ -30,6 +87,7 @@ int opt = 0;              // used for state progress
  * @return true - 
  * @return false - 
  */
+bool unloadThing_moveToRestPos();
 
 /**
  * @brief 
@@ -37,13 +95,7 @@ int opt = 0;              // used for state progress
  * @return true - 
  * @return false - 
  */
-bool unloadThing_moveToRestPos() {
-    return serv.moveToPosition(RESTPOSITION);
-}
-
-bool loadThing_moveToLoadPos() {
-    return serv.moveToPosition(LOADPOSITION);
-}
+bool loadThing_moveToLoadPos();
 
 /**
  * @brief 
@@ -55,17 +107,25 @@ bool loadThing_moveToLoadPos() {
  * @return true if arm is in unload position
  * @return false if arm is not in unload position
  */
-bool loadThing_moveToUnloadPos(bool side) {  // side: true if left, false if right
-    DBFUNCCALLln("::loadThing_moveToUnloadPos()");
-    if (side)
-        return serv.moveToPosition(UNLOADPOSITIONLEFT);
-    else
-        return serv.moveToPosition(UNLOADPOSITIONRIGHT);
-}
+bool loadThing_moveToUnloadPos(bool side);
 
-bool loadThing_moveToDrivePos() {
-    return serv.moveToPosition(DRIVEPOSITION);
-}
+/**
+ * @brief 
+ * 
+ * @return true - 
+ * @return false - 
+ */
+bool loadThing_moveToDrivePos();
+
+/**
+ * @brief 
+ * 
+ * @return true - 
+ * @return false - 
+ */
+void testing();
+
+//=========================MAIN-FUNCTIONS========================================
 
 /**
  * @brief for initialisation of the Board
@@ -89,52 +149,24 @@ void setup() {
  */
 void loop() {
     DBFUNCCALLln("::loop()");
-    bool toNext = false;
+    // bool toNextStatus = false;
+    funcPoint = testing;
+    // toNextStatus = true;
+    funcPoint();
 }
 
-/**
- * @brief 
- * 
- * State I:
- *   - go to rest position to drive without a thing
- *   - emit signal ready
- * 
- * @return true - 
- * @return false - 
- */
 bool stat_getToRestPosition() {
     DBFUNCCALLln("::stat_getToRestPosition()");
     return unloadThing_moveToRestPos();
     // TODO: emit signal READYNOW
 }
 
-/**
- * @brief 
- * 
- * State II &  IV:
- *   - waiting for signal, depending on signal switch to the needed state
- * 
- * @return true - 
- * @return false - 
- */
 bool stat_waitingForSignal() {
     DBFUNCCALLln("::stat_waitingForSignal()");
     // if get signal, return true
     // network class needed
 }
 
-/**
- * @brief 
- * 
- * State III:
- *   - move arm to load position, thing falls into tray
- *   - sensor reads if thing is in tray
- *   - move thing to drive position
- *   - emit signal ready to drive
- * 
- * @return true - 
- * @return false - 
- */
 bool stat_loadThing() {  // must be in rest position!
     DBFUNCCALLln("::stat_loadThing()");
     // switch (opt) {
@@ -171,18 +203,6 @@ bool stat_loadThing() {  // must be in rest position!
     // }
 }
 
-/**
- * @brief 
- * 
- * State V:
- *   - move arm to unload position, thing falls from tray
- *   - sensor reads if thing has fallen from tray
- *   - move arm to rest position
- *   - emit signal ready to drive
- * 
- * @return true - 
- * @return false - 
- */
 bool stat_unloadThing() {
     DBFUNCCALLln("::stat_unloadThing()");
     // bool sside = false;  // get side to unload to, side: true if left, false if right
@@ -217,4 +237,60 @@ bool stat_unloadThing() {
     //         return false;
     //         break;
     // }
+}
+
+bool unloadThing_moveToRestPos() {
+    return servo.moveToPosition(RESTPOSITION);
+}
+
+bool loadThing_moveToLoadPos() {
+    return servo.moveToPosition(LOADPOSITION);
+}
+
+bool loadThing_moveToUnloadPos(bool side) {  // side: true if left, false if right
+    DBFUNCCALLln("::loadThing_moveToUnloadPos()");
+    if (side)
+        return servo.moveToPosition(UNLOADPOSITIONLEFT);
+    else
+        return servo.moveToPosition(UNLOADPOSITIONRIGHT);
+}
+
+bool loadThing_moveToDrivePos() {
+    return servo.moveToPosition(DRIVEPOSITION);
+}
+
+void testing() {
+    DBFUNCCALLln("::testing()");
+    switch (1) {
+        case 0:
+            DBINFO1ln("No Testcase selected");
+            break;
+        case 1:
+            DBINFO1ln("Sensortest Lightbarrier");
+            DBINFO1("Left: ");
+            sensorLinks.hasThing();
+            // DBINFO1ln(!digitalRead(PIN_LB_SENSOR_LEFT));
+            delay(100);
+            DBINFO1("Right: ");
+            // DBINFO1ln(!digitalRead(PIN_LB_SENSOR_RIGHT));
+            sensorRechts.hasThing();
+            delay(100);
+            break;
+        case 2:
+            DBINFO1ln("LED Test");
+            DBINFO1ln("Links");
+            pinMode(PIN_LED_SENSOR_LEFT, OUTPUT);
+            pinMode(PIN_LED_SENSOR_RIGHT, OUTPUT);
+            digitalWrite(PIN_LED_SENSOR_LEFT, HIGH);
+            delay(1000);
+            digitalWrite(PIN_LED_SENSOR_LEFT, LOW);
+            DBINFO1ln("Rechts");
+            digitalWrite(PIN_LED_SENSOR_RIGHT, HIGH);
+            delay(1000);
+            digitalWrite(PIN_LED_SENSOR_RIGHT, LOW);
+            delay(100);
+            break;
+        default:
+            break;
+    }
 }
