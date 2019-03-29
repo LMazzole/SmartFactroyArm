@@ -22,10 +22,10 @@
 void (*funcPoint)() = nullptr;  // states function pointer
 bool toNextStatus = true;
 
-int opt = 0;  // used for state progress
+int substate = 0;  // used for state progress
 
 //===Generate Objects==========
-MyServo servo(PIN_SERVO);
+MyServo servo_center(PIN_SERVO);
 Sensor sensorLinks(PIN_LB_SENSOR_LEFT, PIN_LED_SENSOR_LEFT);  //     Servo(int pin, int maxPulse, int minPulse);
 Sensor sensorRechts(PIN_LB_SENSOR_RIGHT, PIN_LED_SENSOR_RIGHT);
 
@@ -169,10 +169,10 @@ bool stat_waitingForSignal() {
 
 bool stat_loadThing() {  // must be in rest position!
     DBFUNCCALLln("::stat_loadThing()");
-    // switch (opt) {
+    // switch (substate) {
     //     case 0:  // 1. move to load position
     //         if (loadThing_moveToLoadPos())
-    //             opt = 1;
+    //             substate = 1;
     //         break;
     //     case 1:  // 2. check sensor value
     //         bool hasThingSensed = false;
@@ -183,21 +183,21 @@ bool stat_loadThing() {  // must be in rest position!
     //         else
     //             ;  // TODO wrong rampside value
     //         if (hasThingSensed == true)
-    //             opt = 2;
+    //             substate = 2;
     //         else
     //             ;  // TODO what to do?
     //         break;
     //     case 2:  //  3. move to drive position
     //         if (loadThing_moveToDrivePos())
-    //             opt = 3;
+    //             substate = 3;
     //         break;
     //     case 3:  // 4. emit signal READYNOW
     //              // TODO: emit signal READYNOW
-    //         opt = 0;
+    //         substate = 0;
     //         return true;
     //         break;
-    //     default:  // wrong option
-    //         opt = 0;
+    //     default:  // wrong substateion
+    //         substate = 0;
     //         return false;
     //         break;
     // }
@@ -206,10 +206,10 @@ bool stat_loadThing() {  // must be in rest position!
 bool stat_unloadThing() {
     DBFUNCCALLln("::stat_unloadThing()");
     // bool sside = false;  // get side to unload to, side: true if left, false if right
-    // switch (opt) {
+    // switch (substate) {
     //     case 0:  // 1. move to unload position
     //         if (loadThing_moveToUnloadPos(sside))
-    //             opt = 1;
+    //             substate = 1;
     //         break;
     //     case 1:  // 2. check sensor value
     //         bool hasThingEjected = false;
@@ -220,48 +220,48 @@ bool stat_unloadThing() {
     //         else
     //             ;  // TODO wrong rampside value
     //         if (hasThingEjected == true)
-    //             opt = 2;
+    //             substate = 2;
     //         else
     //             ;  // TODO what to do?
     //         break;
     //     case 2:  //  3. move to rest position
     //         if (unloadThing_moveToRestPos())
-    //             opt = 3;
+    //             substate = 3;
     //         break;
     //     case 3:  // 4. emit signal READYNOW
     //              // TODO: emit signal READYNOW
-    //         opt = 0;
+    //         substate = 0;
     //         return true;
     //         break;
-    //     default:  // wrong option
+    //     default:  // wrong substateion
     //         return false;
     //         break;
     // }
 }
 
 bool unloadThing_moveToRestPos() {
-    return servo.moveToPosition(RESTPOSITION);
+    return servo_center.moveToPosition(RESTPOSITION);
 }
 
 bool loadThing_moveToLoadPos() {
-    return servo.moveToPosition(LOADPOSITION);
+    return servo_center.moveToPosition(LOADPOSITION);
 }
 
 bool loadThing_moveToUnloadPos(bool side) {  // side: true if left, false if right
     DBFUNCCALLln("::loadThing_moveToUnloadPos()");
     if (side)
-        return servo.moveToPosition(UNLOADPOSITIONLEFT);
+        return servo_center.moveToPosition(UNLOADPOSITIONLEFT);
     else
-        return servo.moveToPosition(UNLOADPOSITIONRIGHT);
+        return servo_center.moveToPosition(UNLOADPOSITIONRIGHT);
 }
 
 bool loadThing_moveToDrivePos() {
-    return servo.moveToPosition(DRIVEPOSITION);
+    return servo_center.moveToPosition(DRIVEPOSITION);
 }
 
 void testing() {
     DBFUNCCALLln("::testing()");
-    switch (1) {
+    switch (3) {
         case 0:
             DBINFO1ln("No Testcase selected");
             break;
@@ -290,6 +290,33 @@ void testing() {
             digitalWrite(PIN_LED_SENSOR_RIGHT, LOW);
             delay(100);
             break;
+        case 3:
+            DBINFO1ln("Servo Test");
+            for (int pos = 0; pos <= 180; pos += 1) {  // goes from 0 degrees to 180 degrees
+                // in steps of 1 degree
+                servo_center.moveToPosition(pos);  // tell servo to go to position in variable 'pos'
+                delay(15);                         // waits 15ms for the servo to reach the position
+            }
+            delay(10000);
+            for (int pos = 180; pos >= 0; pos -= 1) {  // goes from 180 degrees to 0 degrees
+                servo_center.moveToPosition(pos);      // tell servo to go to position in variable 'pos'
+                delay(15);                             // waits 15ms for the servo to reach the position
+            }
+            delay(10000);
+            break;
+        case 4: {
+            DBINFO1ln("Servo TEST /LEFT RIGHT with LB");
+            int pos = 0;
+            while (sensorLinks.hasThing()) {
+                pos += 1;
+                servo_center.moveToPosition(pos);
+            };
+            while (sensorRechts.hasThing()) {
+                pos -= 1;
+                servo_center.moveToPosition(pos);
+            };
+            delay(100);
+        } break;
         default:
             break;
     }
