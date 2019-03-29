@@ -261,7 +261,7 @@ bool loadThing_moveToDrivePos() {
 
 void testing() {
     DBFUNCCALLln("::testing()");
-    switch (3) {
+    switch (0) {
         case 0:
             DBINFO1ln("No Testcase selected");
             break;
@@ -290,20 +290,35 @@ void testing() {
             digitalWrite(PIN_LED_SENSOR_RIGHT, LOW);
             delay(100);
             break;
-        case 3:
+        case 3: {
             DBINFO1ln("Servo Test");
-            for (int pos = 0; pos <= 180; pos += 1) {  // goes from 0 degrees to 180 degrees
-                // in steps of 1 degree
-                servo_center.moveToPosition(pos);  // tell servo to go to position in variable 'pos'
-                delay(15);                         // waits 15ms for the servo to reach the position
+            int step = 120;  //=180deg drehrihctung gegenuhrzeiger
+            servo_center.moveToPosition(1500);
+            delay(5000);
+            // servo_center.moveToPosition(1550);
+            // delay(5000);
+            // servo_center.moveToPosition(1600);
+            // delay(5000);
+            for (int pos = 1500; pos <= 1500 + step; pos += 10) {  // goes from 0 degrees to 180 degrees
+                                                                   // in steps of 1 degree
+                servo_center.moveToPosition(pos);                  // tell servo to go to position in variable 'pos'
+                // delay(10);                                 // waits 15ms for the servo to reach the position
             }
-            delay(10000);
-            for (int pos = 180; pos >= 0; pos -= 1) {  // goes from 180 degrees to 0 degrees
-                servo_center.moveToPosition(pos);      // tell servo to go to position in variable 'pos'
-                delay(15);                             // waits 15ms for the servo to reach the position
+            delay(2000);
+            for (int pos = 1500 + step; pos >= 1500 - step; pos -= 10) {  // goes from 180 degrees to 0 degrees
+                servo_center.moveToPosition(pos);                         // tell servo to go to position in variable 'pos'
+                // delay(10);                                 // waits 15ms for the servo to reach the position
             }
-            delay(10000);
+            delay(2000);
+            for (int pos = 1500 - step; pos <= 1500; pos += 10) {  // goes from 0 degrees to 180 degrees
+                                                                   // in steps of 1 degree
+                servo_center.moveToPosition(pos);                  // tell servo to go to position in variable 'pos'
+                // delay(10);                                 // waits 15ms for the servo to reach the position
+            }
+            // servo_center.moveToPosition(1500);
+            // delay(10000);
             break;
+        }
         case 4: {
             DBINFO1ln("Servo TEST /LEFT RIGHT with LB");
             int pos = 0;
