@@ -292,31 +292,28 @@ void testing() {
             break;
         case 3: {
             DBINFO1ln("Servo Test");
-            int step = 120;  //=180deg drehrihctung gegenuhrzeiger
-            servo_center.moveToPosition(1500);
+            int maxstep = 180;  //=180deg drehrihctung gegenuhrzeiger
+            int stepwidth = 10;
+            int pauselength = 10;
+            servo_center.moveToPosition(0);
             delay(5000);
-            // servo_center.moveToPosition(1550);
-            // delay(5000);
-            // servo_center.moveToPosition(1600);
-            // delay(5000);
-            for (int pos = 1500; pos <= 1500 + step; pos += 10) {  // goes from 0 degrees to 180 degrees
-                                                                   // in steps of 1 degree
+            for (int pos = 0; pos <= maxstep; pos += stepwidth) {  // goes from 0 degrees to maxstep degrees
+                                                                   // in steps of step degree
                 servo_center.moveToPosition(pos);                  // tell servo to go to position in variable 'pos'
-                // delay(10);                                 // waits 15ms for the servo to reach the position
+                delay(pauselength);                                // waits pauselengthms for the servo to reach the position
             }
             delay(2000);
-            for (int pos = 1500 + step; pos >= 1500 - step; pos -= 10) {  // goes from 180 degrees to 0 degrees
-                servo_center.moveToPosition(pos);                         // tell servo to go to position in variable 'pos'
-                // delay(10);                                 // waits 15ms for the servo to reach the position
+            for (int pos = 0; pos <= 2 * maxstep; pos += stepwidth) {  // goes from maxstep degrees to -maxstep degrees
+
+                servo_center.moveToPosition(maxstep - pos);
+                delay(pauselength);
             }
             delay(2000);
-            for (int pos = 1500 - step; pos <= 1500; pos += 10) {  // goes from 0 degrees to 180 degrees
-                                                                   // in steps of 1 degree
-                servo_center.moveToPosition(pos);                  // tell servo to go to position in variable 'pos'
-                // delay(10);                                 // waits 15ms for the servo to reach the position
+            for (int pos = 0; pos <= maxstep; pos += stepwidth) {  // goes from -maxstep degrees to 0 degrees
+
+                servo_center.moveToPosition(-(maxstep - pos));
+                delay(pauselength);
             }
-            // servo_center.moveToPosition(1500);
-            // delay(10000);
             break;
         }
         case 4: {
@@ -331,6 +328,21 @@ void testing() {
                 servo_center.moveToPosition(pos);
             };
             delay(100);
+        } break;
+        case 5: {
+            DBINFO1ln("Servo TEST in Loop");
+            int pos = 0;
+            while (!servo_center.moveToPosition(pos, 20)) {
+            };
+            delay(1000);
+            pos = 180;
+            while (!servo_center.moveToPosition(pos, 10)) {
+            };
+            delay(1000);
+            pos = -180;
+            while (!servo_center.moveToPosition(pos, 50)) {
+            };
+            delay(1000);
         } break;
         default:
             break;

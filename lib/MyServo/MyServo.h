@@ -26,7 +26,7 @@ class MyServo : public Servo {
     * @brief Construct a new Servo object
     * 
     */
-    MyServo(int pin);
+    MyServo(const int pin);
 
     /**
      * @brief 
@@ -35,20 +35,29 @@ class MyServo : public Servo {
     ~MyServo();
 
     /**
-     * @brief 
+     * @brief move servo to given position
      * 
-     * move servo to given position
      * 
      * @param pos between ??? and ???, position the arm needs to go to
      * @return true if arm is in position
      * @return false if arm is not in position
      * 
-     * @todo check if position is in the right range
      */
     bool moveToPosition(int pos);
 
+    /**
+     * @brief  move servo to given position
+     * 
+     * @param pos - 
+     * @param stepwidthDeg - choose stepwidth in degree
+     * @return true - if arm is in position
+     * @return false - if arm is not in position
+     */
+    bool moveToPosition(int pos, int stepwidthDeg);
+
    private:
-    // MyServo m1;
+    const int pPin;
+    int pActualposDeg;
 };
 
 #endif
