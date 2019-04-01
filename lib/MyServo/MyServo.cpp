@@ -39,17 +39,17 @@ bool MyServo::moveToPosition(int desiredposDeg, int stepwidthDeg) {
         if (desiredposDeg - pActualposDeg >= stepwidthDeg) {  //use stepwidthDeg as long as possible
             DBINFO1ln("stepwidth");
             pActualposDeg += stepwidthDeg;
-        } else {  //switch to stepwidth 1 when the actual pos is nearer at the target pos than the stepwidth
+        } else {  //switch stepwidth to half the difference+1 when the actual pos is nearer at the target pos than the stepwidth
             DBINFO1ln("stepwidth 1");
-            pActualposDeg += 1;
-            // pActualposDeg += (desiredposDeg - pActualposDeg);
+            // pActualposDeg += 1;
+            pActualposDeg += (desiredposDeg - pActualposDeg + 1) / 2;
         }
     } else {
         if (pActualposDeg - desiredposDeg >= stepwidthDeg) {
             pActualposDeg -= stepwidthDeg;
         } else {
-            pActualposDeg -= 1;
-            // pActualposDeg -= (desiredposDeg - pActualposDeg);
+            // pActualposDeg -= 1;
+            pActualposDeg -= (pActualposDeg - desiredposDeg + 1) / 2;
         }
     }
 
