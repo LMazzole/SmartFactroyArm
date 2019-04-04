@@ -29,31 +29,31 @@ class MyServo : public Servo {
     MyServo(const int pin);
 
     /**
-     * @brief 
+     * @brief C-Tor for ServoObject
      * 
      */
     ~MyServo();
 
     /**
-     * @brief move servo to given position
+     * @brief move servo to desired position with 1 degree per functioncall
      * 
      * 
-     * @param pos between ??? and ???, position the arm needs to go to
-     * @return true if arm is in position
-     * @return false if arm is not in position
+     * @param pos - Desired Servo-position; -90deg is left 0deg is Center, 90deg is right
+     * @return true  - if servo is in position
+     * @return false - if servo is not in position
      * 
      */
-    bool moveToPosition(int pos);
+    bool moveToPosition(int desiredposDeg);
 
     /**
-     * @brief  move servo to given position
+     * @brief  Move servo to desired position with choosen stepwidth in degree per functioncall
      * 
-     * @param pos - 
-     * @param stepwidthDeg - choose stepwidth in degree
-     * @return true - if arm is in position
-     * @return false - if arm is not in position
+     * @param desiredposDeg - Desired Servo-position; -90deg is left 0deg is Center, 90deg is right
+     * @param stepwidthDeg - choose stepwidth in degree 0<x
+     * @return true - if servo is in position
+     * @return false - if servo is not in position
      */
-    bool moveToPosition(int pos, int stepwidthDeg);
+    bool moveToPosition(int desiredposDeg, int stepwidthDeg);
 
    private:
     const int pPin;

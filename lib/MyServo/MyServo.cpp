@@ -28,20 +28,28 @@ bool MyServo::moveToPosition(int desiredposDeg) {
 
 bool MyServo::moveToPosition(int desiredposDeg, int stepwidthDeg) {
     DBFUNCCALLln("MyServo::moveToPosition(int pos, int stepwidthDeg)");
+    if (!stepwidthDeg) {      //if stepwidthDeg == 0
+        stepwidthDeg = 1000;  //set stepwidthDeg to MAX (approx 1000)
+    }
+    /* Max. Resolution from read is only about 15 degree.
+    * This will cause an slight Position-Error in the first Loop.
+    *  Edge Cases are not tested. -> Probably undefinde behaviour.
+    */
     int actualpos = read();
-    if (!attached()) {
+    if (!attached()) {  //if Servo is not attached read ActualPos and Map it to degree.
         DBFUNCCALLln("First Call");
         attach(pPin);
-        pActualposDeg = map(actualpos, 92, 110, 0, 270);
+        pActualposDeg = map(actualpos, 92, 110, 0, 270);  //Values determined by trial
     }
 
     if (desiredposDeg > pActualposDeg) {
         if (desiredposDeg - pActualposDeg >= stepwidthDeg) {  //use stepwidthDeg as long as possible
-            DBINFO1ln("stepwidth");
             pActualposDeg += stepwidthDeg;
-        } else {  //switch stepwidth to half the difference+1 when the actual pos is nearer at the target pos than the stepwidth
-            DBINFO1ln("stepwidth 1");
-            // pActualposDeg += 1;
+        } else {
+            /*switch stepwidth to half the difference+1 when the actual pos
+            * is nearer at the target pos than the stepwidth
+            */
+            //pActualposDeg += 1;
             pActualposDeg += (desiredposDeg - pActualposDeg + 1) / 2;
         }
     } else {
@@ -53,9 +61,9 @@ bool MyServo::moveToPosition(int desiredposDeg, int stepwidthDeg) {
         }
     }
 
-    int posUsec = map(pActualposDeg, 0, 90, 1500, 1500 + 60);
+    int posUsec = map(pActualposDeg, 0, 90, 1500, 1500 + 60);  //Values determined by trial
     posUsec = constrain(posUsec, 700, 2300);
-    writeMicroseconds(posUsec);  //https://www.arduino.cc/en/Reference/ServoWriteMicroseconds
+    writeMicroseconds(posUsec);  // More Info: https://www.arduino.cc/en/Reference/ServoWriteMicroseconds
     //delay(1);
     DBINFO1(desiredposDeg);
     DBINFO1(" / ");
@@ -65,7 +73,7 @@ bool MyServo::moveToPosition(int desiredposDeg, int stepwidthDeg) {
     DBINFO1(" / ");
     DBINFO1ln(pActualposDeg);
 
-    if (pActualposDeg == desiredposDeg) {
+    if (pActualposDeg == desiredposDeg) {  //if endposition is reached detach servo
         DBSTATUS("Endposition reached: ");
         DBSTATUSln(pActualposDeg);
         detach();
