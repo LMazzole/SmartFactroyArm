@@ -30,92 +30,92 @@ Sensor sensorLinks(PIN_LB_SENSOR_LEFT, PIN_LED_SENSOR_LEFT);  //     Servo(int p
 Sensor sensorRechts(PIN_LB_SENSOR_RIGHT, PIN_LED_SENSOR_RIGHT);
 
 //=========FUNCTION-PROTOTYP=========
-/**
- * @brief 
- * 
- * State I:
- *   - go to rest position to drive without a thing
- *   - emit signal ready
- * 
- * @return true - 
- * @return false - 
- */
-bool stat_getToRestPosition();
+// /**
+//  * @brief
+//  *
+//  * State I:
+//  *   - go to rest position to drive without a thing
+//  *   - emit signal ready
+//  *
+//  * @return true -
+//  * @return false -
+//  */
+// bool stat_getToRestPosition();
 
-/**
- * @brief 
- * 
- * State II &  IV:
- *   - waiting for signal, depending on signal switch to the needed state
- * 
- * @return true - 
- * @return false - 
- */
-bool stat_waitingForSignal();
+// /**
+//  * @brief
+//  *
+//  * State II &  IV:
+//  *   - waiting for signal, depending on signal switch to the needed state
+//  *
+//  * @return true -
+//  * @return false -
+//  */
+// bool stat_waitingForSignal();
 
-/**
- * @brief 
- * 
- * State III:
- *   - move arm to load position, thing falls into tray
- *   - sensor reads if thing is in tray
- *   - move thing to drive position
- *   - emit signal ready to drive
- * 
- * @return true - 
- * @return false - 
- */
-bool stat_loadThing();
+// /**
+//  * @brief
+//  *
+//  * State III:
+//  *   - move arm to load position, thing falls into tray
+//  *   - sensor reads if thing is in tray
+//  *   - move thing to drive position
+//  *   - emit signal ready to drive
+//  *
+//  * @return true -
+//  * @return false -
+//  */
+// bool stat_loadThing();
 
-/**
- * @brief 
- * 
- * State V:
- *   - move arm to unload position, thing falls from tray
- *   - sensor reads if thing has fallen from tray
- *   - move arm to rest position
- *   - emit signal ready to drive
- * 
- * @return true - 
- * @return false - 
- */
-bool stat_unloadThing();
+// /**
+//  * @brief
+//  *
+//  * State V:
+//  *   - move arm to unload position, thing falls from tray
+//  *   - sensor reads if thing has fallen from tray
+//  *   - move arm to rest position
+//  *   - emit signal ready to drive
+//  *
+//  * @return true -
+//  * @return false -
+//  */
+// bool stat_unloadThing();
 
-/**
- * @brief 
- * 
- * @return true - 
- * @return false - 
- */
-bool unloadThing_moveToRestPos();
+// /**
+//  * @brief
+//  *
+//  * @return true -
+//  * @return false -
+//  */
+// bool unloadThing_moveToRestPos();
 
-/**
- * @brief 
- * 
- * @return true - 
- * @return false - 
- */
-bool loadThing_moveToLoadPos();
+// /**
+//  * @brief
+//  *
+//  * @return true -
+//  * @return false -
+//  */
+// bool loadThing_moveToLoadPos();
 
-/**
- * @brief 
- * 
- * move the thing to the unload position
- * 
- * @param side true if thing needs to be ejected on the left side
- * @param side false if thing needs to be ejected on the right side
- * @return true if arm is in unload position
- * @return false if arm is not in unload position
- */
-bool loadThing_moveToUnloadPos(bool side);
+// /**
+//  * @brief
+//  *
+//  * move the thing to the unload position
+//  *
+//  * @param side true if thing needs to be ejected on the left side
+//  * @param side false if thing needs to be ejected on the right side
+//  * @return true if arm is in unload position
+//  * @return false if arm is not in unload position
+//  */
+// bool loadThing_moveToUnloadPos(bool side);
 
-/**
- * @brief 
- * 
- * @return true - 
- * @return false - 
- */
-bool loadThing_moveToDrivePos();
+// /**
+//  * @brief
+//  *
+//  * @return true -
+//  * @return false -
+//  */
+// bool loadThing_moveToDrivePos();
 
 /**
  * @brief 
@@ -155,115 +155,12 @@ void loop() {
     funcPoint();
 }
 
-bool stat_getToRestPosition() {
-    DBFUNCCALLln("::stat_getToRestPosition()");
-    return unloadThing_moveToRestPos();
-    // TODO: emit signal READYNOW
-}
-
-bool stat_waitingForSignal() {
-    DBFUNCCALLln("::stat_waitingForSignal()");
-    // if get signal, return true
-    // network class needed
-}
-
-bool stat_loadThing() {  // must be in rest position!
-    DBFUNCCALLln("::stat_loadThing()");
-    // switch (substate) {
-    //     case 0:  // 1. move to load position
-    //         if (loadThing_moveToLoadPos())
-    //             substate = 1;
-    //         break;
-    //     case 1:  // 2. check sensor value
-    //         bool hasThingSensed = false;
-    //         if (RAMPSIDE == true)  // left loading ramp
-    //             hasThingSensed = sensLinks.hasThing();
-    //         else if (RAMPSIDE == false)  // right loading ramp
-    //             hasThingSensed = sensRechts.hasThing();
-    //         else
-    //             ;  // TODO wrong rampside value
-    //         if (hasThingSensed == true)
-    //             substate = 2;
-    //         else
-    //             ;  // TODO what to do?
-    //         break;
-    //     case 2:  //  3. move to drive position
-    //         if (loadThing_moveToDrivePos())
-    //             substate = 3;
-    //         break;
-    //     case 3:  // 4. emit signal READYNOW
-    //              // TODO: emit signal READYNOW
-    //         substate = 0;
-    //         return true;
-    //         break;
-    //     default:  // wrong substateion
-    //         substate = 0;
-    //         return false;
-    //         break;
-    // }
-}
-
-bool stat_unloadThing() {
-    DBFUNCCALLln("::stat_unloadThing()");
-    // bool sside = false;  // get side to unload to, side: true if left, false if right
-    // switch (substate) {
-    //     case 0:  // 1. move to unload position
-    //         if (loadThing_moveToUnloadPos(sside))
-    //             substate = 1;
-    //         break;
-    //     case 1:  // 2. check sensor value
-    //         bool hasThingEjected = false;
-    //         if (sside)  // eject left
-    //             hasThingEjected = !sensLinks.hasThing();
-    //         else if (sside)  // eject right
-    //             hasThingEjected = !sensRechts.hasThing();
-    //         else
-    //             ;  // TODO wrong rampside value
-    //         if (hasThingEjected == true)
-    //             substate = 2;
-    //         else
-    //             ;  // TODO what to do?
-    //         break;
-    //     case 2:  //  3. move to rest position
-    //         if (unloadThing_moveToRestPos())
-    //             substate = 3;
-    //         break;
-    //     case 3:  // 4. emit signal READYNOW
-    //              // TODO: emit signal READYNOW
-    //         substate = 0;
-    //         return true;
-    //         break;
-    //     default:  // wrong substateion
-    //         return false;
-    //         break;
-    // }
-}
-
-bool unloadThing_moveToRestPos() {
-    return servo_center.moveToPosition(RESTPOSITION);
-}
-
-bool loadThing_moveToLoadPos() {
-    return servo_center.moveToPosition(LOADPOSITION);
-}
-
-bool loadThing_moveToUnloadPos(bool side) {  // side: true if left, false if right
-    DBFUNCCALLln("::loadThing_moveToUnloadPos()");
-    if (side)
-        return servo_center.moveToPosition(UNLOADPOSITIONLEFT);
-    else
-        return servo_center.moveToPosition(UNLOADPOSITIONRIGHT);
-}
-
-bool loadThing_moveToDrivePos() {
-    return servo_center.moveToPosition(DRIVEPOSITION);
-}
-
 void testing() {
     DBFUNCCALLln("::testing()");
     switch (0) {
         case 0:
             DBINFO1ln("No Testcase selected");
+            delay(10000);
             break;
         case 1:
             DBINFO1ln("Sensortest Lightbarrier");
@@ -335,11 +232,11 @@ void testing() {
             while (!servo_center.moveToPosition(pos, 20)) {
             };
             delay(1000);
-            pos = 180;
-            while (!servo_center.moveToPosition(pos, 10)) {
+            pos = 179;
+            while (!servo_center.moveToPosition(pos)) {
             };
             delay(1000);
-            pos = -180;
+            pos = -179;
             while (!servo_center.moveToPosition(pos, 50)) {
             };
             delay(1000);
@@ -348,3 +245,107 @@ void testing() {
             break;
     }
 }
+
+// bool stat_getToRestPosition() {
+//     DBFUNCCALLln("::stat_getToRestPosition()");
+//     return unloadThing_moveToRestPos();
+//     // TODO: emit signal READYNOW
+// }
+
+// bool stat_waitingForSignal() {
+//     DBFUNCCALLln("::stat_waitingForSignal()");
+//     // if get signal, return true
+//     // network class needed
+// }
+
+// bool stat_loadThing() {  // must be in rest position!
+//     DBFUNCCALLln("::stat_loadThing()");
+//     // switch (substate) {
+//     //     case 0:  // 1. move to load position
+//     //         if (loadThing_moveToLoadPos())
+//     //             substate = 1;
+//     //         break;
+//     //     case 1:  // 2. check sensor value
+//     //         bool hasThingSensed = false;
+//     //         if (RAMPSIDE == true)  // left loading ramp
+//     //             hasThingSensed = sensLinks.hasThing();
+//     //         else if (RAMPSIDE == false)  // right loading ramp
+//     //             hasThingSensed = sensRechts.hasThing();
+//     //         else
+//     //             ;  // TODO wrong rampside value
+//     //         if (hasThingSensed == true)
+//     //             substate = 2;
+//     //         else
+//     //             ;  // TODO what to do?
+//     //         break;
+//     //     case 2:  //  3. move to drive position
+//     //         if (loadThing_moveToDrivePos())
+//     //             substate = 3;
+//     //         break;
+//     //     case 3:  // 4. emit signal READYNOW
+//     //              // TODO: emit signal READYNOW
+//     //         substate = 0;
+//     //         return true;
+//     //         break;
+//     //     default:  // wrong substateion
+//     //         substate = 0;
+//     //         return false;
+//     //         break;
+//     // }
+// }
+
+// bool stat_unloadThing() {
+//     DBFUNCCALLln("::stat_unloadThing()");
+//     // bool sside = false;  // get side to unload to, side: true if left, false if right
+//     // switch (substate) {
+//     //     case 0:  // 1. move to unload position
+//     //         if (loadThing_moveToUnloadPos(sside))
+//     //             substate = 1;
+//     //         break;
+//     //     case 1:  // 2. check sensor value
+//     //         bool hasThingEjected = false;
+//     //         if (sside)  // eject left
+//     //             hasThingEjected = !sensLinks.hasThing();
+//     //         else if (sside)  // eject right
+//     //             hasThingEjected = !sensRechts.hasThing();
+//     //         else
+//     //             ;  // TODO wrong rampside value
+//     //         if (hasThingEjected == true)
+//     //             substate = 2;
+//     //         else
+//     //             ;  // TODO what to do?
+//     //         break;
+//     //     case 2:  //  3. move to rest position
+//     //         if (unloadThing_moveToRestPos())
+//     //             substate = 3;
+//     //         break;
+//     //     case 3:  // 4. emit signal READYNOW
+//     //              // TODO: emit signal READYNOW
+//     //         substate = 0;
+//     //         return true;
+//     //         break;
+//     //     default:  // wrong substateion
+//     //         return false;
+//     //         break;
+//     // }
+// }
+
+// bool unloadThing_moveToRestPos() {
+//     return servo_center.moveToPosition(RESTPOSITION);
+// }
+
+// bool loadThing_moveToLoadPos() {
+//     return servo_center.moveToPosition(LOADPOSITION);
+// }
+
+// bool loadThing_moveToUnloadPos(bool side) {  // side: true if left, false if right
+//     DBFUNCCALLln("::loadThing_moveToUnloadPos()");
+//     if (side)
+//         return servo_center.moveToPosition(UNLOADPOSITIONLEFT);
+//     else
+//         return servo_center.moveToPosition(UNLOADPOSITIONRIGHT);
+// }
+
+// bool loadThing_moveToDrivePos() {
+//     return servo_center.moveToPosition(DRIVEPOSITION);
+// }
