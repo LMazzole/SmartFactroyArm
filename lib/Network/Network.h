@@ -1,6 +1,6 @@
 /**
  * @file Network.h
- * @brief 
+ * @brief handles network connections over bluetooth and signals passed by the Raspberry Pi
  * 
  * @author Luca Mazzoleni (luca.mazzoleni@hsr.ch)
  * 
@@ -33,90 +33,100 @@
 class Network {
    public:
     /**
-    * @brief 
+    * @brief enumerates the message which may be received
     * 
+	* it is somehow a representation of states in the FSM
     */
     enum receiveStates {
         nothingReceived = -1,  ///< no messages received or unknown message received
-        pickupLeft = 0,        ///< pickup(0)
-        pickupRight = 1,       ///< pickup(1)
-        dropLeft = 2,          ///< drop(0)
-        dropRight = 3          ///< drop(1)
+        pickupLeft = 0,        ///< signal: pickup(0)
+        pickupRight = 1,       ///< signal: pickup(1)
+        dropLeft = 2,          ///< signal: drop(0)
+        dropRight = 3          ///< signal: drop(1)
     };
 
     /**
-     * @brief 
+     * @brief enumerates messages which must be sent
      * 
+	 * it is somehow a representation of states in the FSM
      */
     enum sendStates {
-        pickupSuccess = 0,  ///< pickupSuccess(1)
-        pickupFailure = 1,  ///< pickupSuccess(0)
-        dropSuccess = 2,    ///< dropSuccess(1)
-        dropFailure = 3     ///< dropSuccess(0)
+        pickupSuccess = 0,  ///< signal: pickupSuccess(1)
+        pickupFailure = 1,  ///< signal: pickupSuccess(0)
+        dropSuccess = 2,    ///< signal: dropSuccess(1)
+        dropFailure = 3     ///< signal: dropSuccess(0)
     };
 
    public:
     /**
     * @brief Construct a new Network object
     * 
-    * @param name - 
     */
     Network();
 
     /**
-     * @brief waits until connected to bluetooth
+     * @brief waits until connected to bluetooth, makes the connection
      * 
-     * @param name - 
+     * @param name the name of the board (in Bluetooth), is obolete, since not used
      */
     void init(String name);
 
     /**
-     * @brief 
+     * @brief return the enum of the message which is received
      * 
-     * @return receiveStates - 
+     * @return receiveStates the state which is received
      */
     receiveStates receiveAndAnalyse();
     /**
-     * @brief 
+     * @brief sends messages based on the enum value
      * 
-     * @param state - 
-     * @return true - 
-     * @return false - 
+     * @param state the state which will be sent
+     * @return true if the message is sent
+     * @return false if the message is not sent
      */
     bool sendMessage(sendStates state);
 
     /**
-     * @brief 
+     * @brief is used for debuging purposes, can pass strings to be sent
      * 
-     * @param msg - 
-     * @return true - 
-     * @return false - 
+     * @param msg the string to send over bluetooth
+     * @return true if the string is sent
+     * @return false if the string is not sent
      */
     bool sendTestMessage(String msg);
 
     /**
-     * @brief 
+     * @brief can print information concerning bluetooth and connection
      * 
      */
     void printInfo();
 
     /**
-     * @brief 
+     * @brief used to decode the enum values for receiveStates to human readable strings
      * 
-     * @return String - 
+	 * @param receiveStates the enum to be passed
+     * @return String the decoded message, human intepretable
      */
     String decodeReceiveStates(receiveStates);
 
     /**
-     * @brief 
+     * @brief used to decode the enum values for sendStates to human readable strings
      * 
-     * @return String - 
+	 * @param sendStates the enum to be passed
+     * @return String the decoded message, human intepretable 
      */
     String decodeSendStates(sendStates);
 
    private:
-    Adafruit_BluefruitLE_SPI ble;  ///<
-    bool sendString(String msg);   ///<
+    Adafruit_BluefruitLE_SPI ble;  ///< the connection element
+	/**
+     * @brief the function, that actually sends the message, used as helper function for sendMessage, etc.
+     * 
+	 * @param msg the message, which will be sent
+     * @return true if the message is sent
+	 * @return false if the message is not sent
+     */
+    bool sendString(String msg);
 };
 
 #endif

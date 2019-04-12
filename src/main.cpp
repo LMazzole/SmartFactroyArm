@@ -20,21 +20,19 @@
 
 //===Global Variables==========
 
-bool (*funcPoint)() = nullptr;  // states function pointer
-bool toNextStatus = true;
-
-int substate = 0;  // used for state progress
+bool (*funcPoint)() = nullptr;  ///< states function pointer for FSM
+int substate = 0;  //< used for substate of FSM (second level)
 
 //===Generate Objects==========
-MyServo servo_center(PIN_SERVO);
-Sensor sensorLinks(PIN_LB_SENSOR_LEFT, PIN_LED_SENSOR_LEFT);  //     Servo(int pin, int maxPulse, int minPulse);
-Sensor sensorRechts(PIN_LB_SENSOR_RIGHT, PIN_LED_SENSOR_RIGHT);
-Network networkObj;
-Network::receiveStates currentMessage;
+MyServo servo_center(PIN_SERVO); ///< Object of center servo
+Sensor sensorLinks(PIN_LB_SENSOR_LEFT, PIN_LED_SENSOR_LEFT);  ///< Sensor on left side, Servo(int pin, int maxPulse, int minPulse);
+Sensor sensorRechts(PIN_LB_SENSOR_RIGHT, PIN_LED_SENSOR_RIGHT); ///< Sensor on right side, Servo(int pin, int maxPulse, int minPulse);
+Network networkObj; ///< Object of network communication
+Network::receiveStates currentMessage; ///< saves the current received Message, which is in work now
 
 //=========FUNCTION-PROTOTYP=========
 /**
- * @brief
+ * @brief first state, on boot
  *
  * State I:
  *   - go to rest position to drive without a thing
@@ -46,9 +44,9 @@ Network::receiveStates currentMessage;
 bool stat_getToRestPosition();
 
 /**
- * @brief
+ * @brief second state, after reached rest position or after unloading
  *
- * State II &  IV:
+ * State II:
  *   - waiting for signal, depending on signal switch to the needed state
  *
  * @return true if state done and goig to next
@@ -57,12 +55,18 @@ bool stat_getToRestPosition();
 bool stat_waitingForSignal();
 
 /**
- * 
- * */
+ * @brief fourth state, after loading package
+ *
+ * State IV:
+ *    - waiting for signal, depending on signal switch to the needed state
+ *
+ * @return true if state done and goig to next
+ * @return false if in state
+ */
 bool stat_waitingForSignal2();
 
 /**
- * @brief
+ * @brief third state, after signal for pickup package
  *
  * State III:
  *   - move arm to load position, thing falls into tray
@@ -76,7 +80,7 @@ bool stat_waitingForSignal2();
 bool stat_loadThing();
 
 /**
- * @brief
+ * @brief fifth state, after signal for drop package
  *
  * State V:
  *   - move arm to unload position, thing falls from tray
@@ -90,42 +94,43 @@ bool stat_loadThing();
 bool stat_unloadThing();
 
 /**
- * @brief
+ * @brief moving arm to resting position, the position at which no package is in the tray and the arm is save for driving
  *
- * @return true if state done and goig to next
- * @return false if in state
+ * @return true if in position
+ * @return false if not in position
  */
 bool unloadThing_moveToRestPos();
 
 /**
- * @brief
+ * @brief moving arm to package loading position
  *
- * @return true if state done and goig to next
- * @return false if in state
+ * @return true if in position
+ * @return false if not in position
  */
 bool loadThing_moveToLoadPos();
-
-/**
- * @brief
- *
- * move the thing to the unload position
+ 
+ 
+ /**
+ * @brief moving arm to package loading position
  *
  * @param side Network::receiveStates passed by bluetooth
- * @return true if arm is in unload position
- * @return false if arm is not in unload position
+ * @return true if in position
+ * @return false if not in position
  */
 bool loadThing_moveToUnloadPos(Network::receiveStates side);
 
 /**
- * @brief
+ * @brief moving arm to drive position, position at which the package is in the tray and save for driving
  *
- * @return true if state done and goig to next
- * @return false if in state
+ * @return true if in position
+ * @return false if not in position
  */
 bool loadThing_moveToDrivePos();
 
 /**
- * @brief 
+ * @brief testing function for testing components
+ *
+ * switch statement to select test cases
  * 
  */
 bool testing();
@@ -157,12 +162,11 @@ void setup() {
  */
 void loop() {
     DBFUNCCALLln("::loop()");
-    // bool toNextStatus = false;
     // funcPoint = testing;
-    // toNextStatus = true;
     funcPoint();
     // delay(500);
 }
+
 
 bool testing() {
     DBFUNCCALLln("::testing()");
@@ -284,6 +288,8 @@ bool testing() {
             break;
     }
 }
+
+
 
 bool stat_getToRestPosition() {
     DBFUNCCALLln("::stat_getToRestPosition()");
