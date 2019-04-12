@@ -1,3 +1,16 @@
+/**
+ * @file Network.cpp
+ * @brief 
+ * 
+ * @author Luca Mazzoleni (luca.mazzoleni@hsr.ch)
+ * 
+ * @version 1.1 - Description - {author} - {date}
+ * 
+ * @date 2019-04-12
+ * @copyright Copyright (c) 2019
+ * 
+ */
+
 #include "Network.h"
 
 Network::Network() : ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_RST) {

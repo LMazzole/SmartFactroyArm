@@ -1,3 +1,16 @@
+/**
+ * @file NetworkConfiguration.h
+ * @brief 
+ * 
+ * @author Luca Mazzoleni (luca.mazzoleni@hsr.ch)
+ * 
+ * @version 1.1 - Description - {author} - {date}
+ * 
+ * @date 2019-04-12
+ * @copyright Copyright (c) 2019
+ * 
+ */
+
 #define BUFSIZE 160        // Size of the read buffer for incoming data
 #define VERBOSE_MODE true  // If set to 'true' enables debug output
 

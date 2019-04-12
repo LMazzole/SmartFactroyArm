@@ -1,3 +1,16 @@
+/**
+ * @file Network.h
+ * @brief 
+ * 
+ * @author Luca Mazzoleni (luca.mazzoleni@hsr.ch)
+ * 
+ * @version 1.1 - Description - {author} - {date}
+ * 
+ * @date 2019-04-12
+ * @copyright Copyright (c) 2019
+ * 
+ */
+
 #ifndef NETWORK_H
 #define NETWORK_H
 
@@ -19,18 +32,27 @@
 
 class Network {
    public:
+    /**
+    * @brief 
+    * 
+    */
     enum receiveStates {
-        nothingReceived = -1,  // no messages received or unknown message received
-        pickupLeft = 0,        // pickup(0)
-        pickupRight = 1,       // pickup(1)
-        dropLeft = 2,          // drop(0)
-        dropRight = 3          // drop(1)
+        nothingReceived = -1,  ///< no messages received or unknown message received
+        pickupLeft = 0,        ///< pickup(0)
+        pickupRight = 1,       ///< pickup(1)
+        dropLeft = 2,          ///< drop(0)
+        dropRight = 3          ///< drop(1)
     };
+
+    /**
+     * @brief 
+     * 
+     */
     enum sendStates {
-        pickupSuccess = 0,  // pickupSuccess(1)
-        pickupFailure = 1,  // pickupSuccess(0)
-        dropSuccess = 2,    // dropSuccess(1)
-        dropFailure = 3     // dropSuccess(0)
+        pickupSuccess = 0,  ///< pickupSuccess(1)
+        pickupFailure = 1,  ///< pickupSuccess(0)
+        dropSuccess = 2,    ///< dropSuccess(1)
+        dropFailure = 3     ///< dropSuccess(0)
     };
 
    public:
