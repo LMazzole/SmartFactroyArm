@@ -1,26 +1,17 @@
 # Smart Factory - Arm
 
-Im Rahmen des Moduls PLMSys soll ein einfaches IoT (Internet of Things) Produkt
-
-entwickelt und in Betrieb genommen werden, das die gesamte Kommunikations-
-
-Kette vom Sensor in die Cloud (IoT Stack) und schliesslich in einem PLM System
-
-kommuniziert. Auf diese Weise wird über das Semester die gesamte Prozesskette
-
-des Closed-Loop-PLM (Design – Produktion – Nutzung – Feedback ins Design) einmal
-
+Im Rahmen des Moduls PLMSys soll ein einfaches IoT (Internet of Things) Produkt  
+entwickelt und in Betrieb genommen werden, das die gesamte Kommunikations-  
+Kette vom Sensor in die Cloud (IoT Stack) und schliesslich in einem PLM System  
+kommuniziert. Auf diese Weise wird über das Semester die gesamte Prozesskette  
+des Closed-Loop-PLM (Design – Produktion – Nutzung – Feedback ins Design) einmal  
 durchlaufen.
 
 ## Problemstellung
 
-Für die Sortieranlage Soritc 150 ist ein neues Modul zu entwickeln. Neben der aktuellen
-
-«High-End» Variante mit einem Roboterarm zum Aufnehmen und ablegen der
-
-Objekte soll eine kostengünstige, einfache Variante angeboten werden.
-
-
+Für die Sortieranlage Soritc 150 ist ein neues Modul zu entwickeln. Neben der aktuellen  
+«High-End» Variante mit einem Roboterarm zum Aufnehmen und ablegen der  
+Objekte soll eine kostengünstige, einfache Variante angeboten werden. 
 
 Das zu entwickelnde Modul muss 100% mit der aktuellen Plattform kompatibel sein.
 
