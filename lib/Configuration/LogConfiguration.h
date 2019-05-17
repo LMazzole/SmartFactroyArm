@@ -17,6 +17,7 @@
 
 // #define DEBUGGER true  ///< Option to activate the Serial.print global
 #define DEBUG_STATUS  ///< Define DEBUG_STATUS global to print all occuring status-updates via serial
+#define DEBUG_ERROR   ///< Define DEBUG_ERROR global to print all  occuring errors via serial
 
 #ifdef DEBUGGER
 #define DEBUG_ERROR     ///< Define DEBUG_ERROR global to print all  occuring errors via serial
@@ -34,8 +35,8 @@
 #endif
 
 #ifdef DEBUG_ERROR
-#define DBERROR(x)           \
-    Serial.print("ERROR: "); \
+#define DBERROR(x)          \
+    Serial.print("error:"); \
     Serial.println(x);
 #else
 #define DBERROR(x)

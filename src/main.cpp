@@ -1,12 +1,12 @@
 /**
  * @file main.cpp
- * @brief 
+ * @brief Contains the FSM of the SmartFactory Arm
  * 
  * @image html fsm.png width=1000
  * 
  * @author Luca Mazzoleni (luca.mazzoleni@hsr.ch)
  * 
- * @version 0.1 
+ * @version 1.0 
  * 
  * @date 2019-03-22
  * @copyright Copyright (c) 2019
@@ -319,6 +319,7 @@ bool stat_waitingForSignal() {
         currentMessage = rec;
         DBINFO1("currentMessage: ");
         DBINFO1ln(networkObj.decodeReceiveStates(currentMessage));
+        DBERROR("ErrorMsg. received");
         funcPoint = stat_error;
         return true;
     } else {
@@ -335,11 +336,13 @@ bool stat_loadThing() {  // must be in rest position!
     DBFUNCCALLln("::stat_loadThing()");
     DBSTATUSln("Load Package");
     DBINFO1("currentMessage: ");
+    DBERROR("");
     DBINFO1ln(networkObj.decodeReceiveStates(currentMessage));
     if (!(currentMessage == Network::receiveStates::pickupLeft ||
-          currentMessage == Network::receiveStates::pickupRight))
+          currentMessage == Network::receiveStates::pickupRight)) {
+        DBERROR("invalid Msg. received");
         funcPoint = stat_waitingForSignal;
-    else if (currentMessage == Network::receiveStates::pickupLeft) {
+    } else if (currentMessage == Network::receiveStates::pickupLeft) {
         DBERROR("wrong side chosen ;)");
         funcPoint = stat_waitingForSignal;
     } else {
@@ -387,13 +390,15 @@ bool stat_loadThing() {  // must be in rest position!
 bool stat_waitingForSignal2() {
     DBFUNCCALLln("::stat_waitingForSignal2()");
     DBSTATUSln("Wait for Signal2");
+    DBERROR("");
     Network::receiveStates rec = networkObj.receiveAndAnalyse();
-    if (rec == Network::receiveStates::nothingReceived)
+    if (rec == Network::receiveStates::nothingReceived) {
         return false;
-    else if (rec == Network::receiveStates::error) {
+    } else if (rec == Network::receiveStates::error) {
         currentMessage = rec;
         DBINFO1("currentMessage: ");
         DBINFO1ln(networkObj.decodeReceiveStates(currentMessage));
+        DBERROR("ErrorMsg. received");
         funcPoint = stat_error;
         return true;
     } else {

@@ -9,6 +9,7 @@ var searchData=
   ['dbstatusln',['DBSTATUSln',['../_log_configuration_8h.html#a6be94c808105f6506cb1e72f330f0777',1,'LogConfiguration.h']]],
   ['dbwarning',['DBWARNING',['../_log_configuration_8h.html#a0ff23a4b212ae8912ff37cfa0bde6c1e',1,'LogConfiguration.h']]],
   ['dbwarningln',['DBWARNINGln',['../_log_configuration_8h.html#a7685d06c4a136c1dd994845777060c5a',1,'LogConfiguration.h']]],
+  ['debug_5ferror',['DEBUG_ERROR',['../_log_configuration_8h.html#a49bce9dafa991fde5616257caa9e3c4a',1,'LogConfiguration.h']]],
   ['debug_5fstatus',['DEBUG_STATUS',['../_log_configuration_8h.html#a04c63ab2d82d3f4b94883e1fb75e62f4',1,'LogConfiguration.h']]],
   ['decodereceivestates',['decodeReceiveStates',['../class_network.html#ae02057b1e8b6bca30feb71e57849572d',1,'Network']]],
   ['decodesendstates',['decodeSendStates',['../class_network.html#aebdb752aae84c9a848a3bee9a1dc2894',1,'Network']]],

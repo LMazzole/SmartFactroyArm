@@ -4,7 +4,6 @@
  * 
  * @author Luca Mazzoleni (luca.mazzoleni@hsr.ch)
  * 
- * @version 1.1 - Description - {author} - {date}
  * 
  * @date 2019-04-12
  * @copyright Copyright (c) 2019
