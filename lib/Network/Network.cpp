@@ -70,6 +70,10 @@ Network::receiveStates Network::receiveAndAnalyse() {
         return receiveStates::dropLeft;
     else if (msg == "drop(1)")
         return receiveStates::dropRight;
+    else if (msg == "error")
+        return receiveStates::error;
+    else if (msg == "resume")
+        return receiveStates::resume;
     else {
         DBINFO1ln("unknown message");  // TODO log unknown message received
         return receiveStates::nothingReceived;
@@ -138,6 +142,12 @@ String Network::decodeReceiveStates(receiveStates states) {
             break;
         case dropRight:
             return "dropRight";
+            break;
+        case error:
+            return "error";
+            break;
+        case resume:
+            return "resume";
             break;
         default:
             return "unknown";

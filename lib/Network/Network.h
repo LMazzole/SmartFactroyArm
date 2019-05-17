@@ -42,7 +42,9 @@ class Network {
         pickupLeft = 0,        ///< signal: pickup(0)
         pickupRight = 1,       ///< signal: pickup(1)
         dropLeft = 2,          ///< signal: drop(0)
-        dropRight = 3          ///< signal: drop(1)
+        dropRight = 3,         ///< signal: drop(0)
+        error = 4,             ///< signal: error
+        resume = 5             ///< signal: resume
     };
 
     /**

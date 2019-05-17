@@ -15,19 +15,19 @@
 #ifndef LOGCONFIGURATION_H
 #define LOGCONFIGURATION_H
 
-#define DEBUGGER true  ///< Option to activate the Serial.print global
+// #define DEBUGGER true  ///< Option to activate the Serial.print global
+#define DEBUG_STATUS  ///< Define DEBUG_STATUS global to print all occuring status-updates via serial
 
 #ifdef DEBUGGER
-// #define DEBUG_STATUS   ///< Define DEBUG_STATUS global to print all occuring status-updates via serial
-// #define DEBUG_ERROR    ///< Define DEBUG_ERROR global to print all  occuring errors via serial
-// #define DEBUG_WARNING  ///< Define DEBUG_WARNING global to print all occuring warnings via serial
-// #define DEBUG_FUNCCALL  ///< Define DEBUG_FUNCCALL global to print all occuring functioncalls via serial
-// #define DEBUG_INFO1     ///< Define DEBUG_INFO1 global to print all occuring infos via serial
+#define DEBUG_ERROR     ///< Define DEBUG_ERROR global to print all  occuring errors via serial
+#define DEBUG_WARNING   ///< Define DEBUG_WARNING global to print all occuring warnings via serial
+#define DEBUG_FUNCCALL  ///< Define DEBUG_FUNCCALL global to print all occuring functioncalls via serial
+#define DEBUG_INFO1     ///< Define DEBUG_INFO1 global to print all occuring infos via serial
 #endif
 
 #ifdef DEBUG_STATUS
-#define DBSTATUS(x) Serial.print(x)
-#define DBSTATUSln(x) Serial.println(x)
+#define DBSTATUS(x) Serial.print(String("state:") + String(x))
+#define DBSTATUSln(x) Serial.println(String("state:") + String(x))
 #else
 #define DBSTATUS(x)
 #define DBSTATUSln(x)

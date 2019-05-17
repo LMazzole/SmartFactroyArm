@@ -2,6 +2,8 @@
  * @file main.cpp
  * @brief 
  * 
+ * @image html fsm.png width=1000
+ * 
  * @author Luca Mazzoleni (luca.mazzoleni@hsr.ch)
  * 
  * @version 0.1 
@@ -78,6 +80,14 @@ bool stat_waitingForSignal2();
  * @return false if in state
  */
 bool stat_loadThing();
+
+/**
+ * @brief error state
+ * 
+ * @return true - leave state
+ * @return false - stay in state
+ */
+bool stat_error();
 
 /**
  * @brief fifth state, after signal for drop package
@@ -305,7 +315,13 @@ bool stat_waitingForSignal() {
     Network::receiveStates rec = networkObj.receiveAndAnalyse();
     if (rec == Network::receiveStates::nothingReceived)
         return false;
-    else {
+    else if (rec == Network::receiveStates::error) {
+        currentMessage = rec;
+        DBINFO1("currentMessage: ");
+        DBINFO1ln(networkObj.decodeReceiveStates(currentMessage));
+        funcPoint = stat_error;
+        return true;
+    } else {
         currentMessage = rec;
         DBINFO1("currentMessage: ");
         DBINFO1ln(networkObj.decodeReceiveStates(currentMessage));
@@ -341,10 +357,14 @@ bool stat_loadThing() {  // must be in rest position!
                     hasThingSensed = sensorRechts.hasThing();
                 else
                     DBINFO1ln("not expected message");  // TODO wrong rampside value
+
                 if (hasThingSensed == true)
                     substate = 2;
-                else
+                else {
                     networkObj.sendMessage(Network::sendStates::pickupFailure);  // TODO what to do?
+                    substate = 0;
+                    funcPoint = stat_error;
+                }
                 break;
             case 2:  //  3. move to drive position
                 if (loadThing_moveToDrivePos())
@@ -370,7 +390,13 @@ bool stat_waitingForSignal2() {
     Network::receiveStates rec = networkObj.receiveAndAnalyse();
     if (rec == Network::receiveStates::nothingReceived)
         return false;
-    else {
+    else if (rec == Network::receiveStates::error) {
+        currentMessage = rec;
+        DBINFO1("currentMessage: ");
+        DBINFO1ln(networkObj.decodeReceiveStates(currentMessage));
+        funcPoint = stat_error;
+        return true;
+    } else {
         currentMessage = rec;
         DBINFO1("currentMessage: ");
         DBINFO1ln(networkObj.decodeReceiveStates(currentMessage));
@@ -404,9 +430,11 @@ bool stat_unloadThing() {
 
                 if (hasThingEjected == true)
                     substate = 2;
-                else
+                else {
                     networkObj.sendMessage(Network::sendStates::dropFailure);  // TODO what to do?
-
+                    substate = 0;
+                    funcPoint = stat_error;
+                }
                 break;
             case 2:  //  3. move to rest position
                 if (unloadThing_moveToRestPos())
@@ -422,6 +450,26 @@ bool stat_unloadThing() {
                 return false;
                 break;
         }
+    }
+}
+
+bool stat_error() {
+    DBFUNCCALLln("::stat_error()");
+    DBSTATUSln("Wait for Signal");
+    Network::receiveStates rec = networkObj.receiveAndAnalyse();
+    if (rec == Network::receiveStates::nothingReceived)
+        return false;
+    else if (rec == Network::receiveStates::resume) {
+        currentMessage = rec;
+        DBINFO1("currentMessage: ");
+        DBINFO1ln(networkObj.decodeReceiveStates(currentMessage));
+        funcPoint = stat_getToRestPosition;
+        return true;
+    } else {
+        currentMessage = rec;
+        DBINFO1("currentMessage: ");
+        DBINFO1ln(networkObj.decodeReceiveStates(currentMessage));
+        return false;
     }
 }
 
