@@ -13,22 +13,22 @@
 #include <Arduino.h>
 #include "Configuration.h"
 #include "LogConfiguration.h"
-#include "PositionConfiguration.h"
 #include "MyServo.h"
 #include "Network.h"
+#include "PositionConfiguration.h"
 #include "Sensor.h"
 
 //===Global Variables==========
 
 bool (*funcPoint)() = nullptr;  ///< states function pointer for FSM
-int substate = 0;  //< used for substate of FSM (second level)
+int substate = 0;               ///< used for substate of FSM (second level)
 
 //===Generate Objects==========
-MyServo servo_center(PIN_SERVO); ///< Object of center servo
-Sensor sensorLinks(PIN_LB_SENSOR_LEFT, PIN_LED_SENSOR_LEFT);  ///< Sensor on left side, Servo(int pin, int maxPulse, int minPulse);
-Sensor sensorRechts(PIN_LB_SENSOR_RIGHT, PIN_LED_SENSOR_RIGHT); ///< Sensor on right side, Servo(int pin, int maxPulse, int minPulse);
-Network networkObj; ///< Object of network communication
-Network::receiveStates currentMessage; ///< saves the current received Message, which is in work now
+MyServo servo_center(PIN_SERVO);                                 ///< Object of center servo
+Sensor sensorLinks(PIN_LB_SENSOR_LEFT, PIN_LED_SENSOR_LEFT);     ///< Sensor on left side, Servo(int pin, int maxPulse, int minPulse);
+Sensor sensorRechts(PIN_LB_SENSOR_RIGHT, PIN_LED_SENSOR_RIGHT);  ///< Sensor on right side, Servo(int pin, int maxPulse, int minPulse);
+Network networkObj;                                              ///< Object of network communication
+Network::receiveStates currentMessage;                           ///< saves the current received Message, which is in work now
 
 //=========FUNCTION-PROTOTYP=========
 /**
@@ -108,9 +108,8 @@ bool unloadThing_moveToRestPos();
  * @return false if not in position
  */
 bool loadThing_moveToLoadPos();
- 
- 
- /**
+
+/**
  * @brief moving arm to package loading position
  *
  * @param side Network::receiveStates passed by bluetooth
@@ -147,7 +146,7 @@ bool testing();
 void setup() {
     DBFUNCCALLln("::setup()");
     Serial.begin(9600);
-    networkObj.init("ZellwegerBettinaglioMazzoleni");
+    // networkObj.init("ZellwegerBettinaglioMazzoleni");
 
     funcPoint = stat_getToRestPosition;
 }
@@ -164,9 +163,8 @@ void loop() {
     DBFUNCCALLln("::loop()");
     // funcPoint = testing;
     funcPoint();
-    // delay(500);
+    delay(500);
 }
-
 
 bool testing() {
     DBFUNCCALLln("::testing()");
@@ -208,7 +206,7 @@ bool testing() {
             break;
         case 3: {
             DBINFO1ln("---------Servo Test---------");
-            int maxstep = 180;  
+            int maxstep = 180;
             int stepwidth = 10;
             int pauselength = 10;
             servo_center.moveToPosition(0);
@@ -271,7 +269,8 @@ bool testing() {
         case 7: {
             DBINFO1ln("Move Servo to Position Test");
             int speed = 10;
-            while(!servo_center.moveToPosition(0,speed));
+            while (!servo_center.moveToPosition(0, speed))
+                ;
             delay(5000);
             // while(!servo_center.moveToPosition(RESTPOSITION,speed));
             // delay(5000);
@@ -283,13 +282,11 @@ bool testing() {
             // delay(5000);
             // while(!servo_center.moveToPosition(UNLOADPOSITIONRIGHT,speed));
             // delay(5000);
-        }break;
+        } break;
         default:
             break;
     }
 }
-
-
 
 bool stat_getToRestPosition() {
     DBFUNCCALLln("::stat_getToRestPosition()");
@@ -309,7 +306,6 @@ bool stat_waitingForSignal() {
     if (rec == Network::receiveStates::nothingReceived)
         return false;
     else {
-
         currentMessage = rec;
         DBINFO1("currentMessage: ");
         DBINFO1ln(networkObj.decodeReceiveStates(currentMessage));
@@ -325,22 +321,23 @@ bool stat_loadThing() {  // must be in rest position!
     DBINFO1("currentMessage: ");
     DBINFO1ln(networkObj.decodeReceiveStates(currentMessage));
     if (!(currentMessage == Network::receiveStates::pickupLeft ||
-        currentMessage == Network::receiveStates::pickupRight))
+          currentMessage == Network::receiveStates::pickupRight))
         funcPoint = stat_waitingForSignal;
-    else if (currentMessage == Network::receiveStates::pickupLeft)
-        {DBERROR("wrong side chosen ;)");
-        funcPoint = stat_waitingForSignal;}
-    else {
+    else if (currentMessage == Network::receiveStates::pickupLeft) {
+        DBERROR("wrong side chosen ;)");
+        funcPoint = stat_waitingForSignal;
+    } else {
         bool hasThingSensed = false;
         switch (substate) {
             case 0:  // 1. move to load position
                 if (loadThing_moveToLoadPos())
                     substate = 1;
                 break;
-            case 1:                                                     // 2. check sensor value
+            case 1:                                                        // 2. check sensor value
                 if (currentMessage == Network::receiveStates::pickupLeft)  // left loading ramp
-                    {DBERROR("wrong side chosen ;)");}
-                else if (currentMessage == Network::receiveStates::pickupRight)  // right loading ramp
+                {
+                    DBERROR("wrong side chosen ;)");
+                } else if (currentMessage == Network::receiveStates::pickupRight)  // right loading ramp
                     hasThingSensed = sensorRechts.hasThing();
                 else
                     DBINFO1ln("not expected message");  // TODO wrong rampside value
@@ -387,8 +384,8 @@ bool stat_unloadThing() {
     DBFUNCCALLln("::stat_unloadThing()");
     DBSTATUSln("Unload Package");
     if (!(currentMessage == Network::receiveStates::dropLeft ||
-        currentMessage == Network::receiveStates::dropRight))
-        {}  // do nothing
+          currentMessage == Network::receiveStates::dropRight)) {
+    }  // do nothing
     else {
         // bool sside = false;  // get side to unload to, side: true if left, false if right
         bool hasThingEjected = false;
@@ -397,7 +394,7 @@ bool stat_unloadThing() {
                 if (loadThing_moveToUnloadPos(currentMessage))
                     substate = 1;
                 break;
-            case 1:                                                   // 2. check sensor value
+            case 1:                                                      // 2. check sensor value
                 if (currentMessage == Network::receiveStates::dropLeft)  // eject left
                     hasThingEjected = !sensorLinks.hasThing();
                 else if (currentMessage == Network::receiveStates::dropRight)  // eject right
@@ -429,23 +426,23 @@ bool stat_unloadThing() {
 }
 
 bool unloadThing_moveToRestPos() {
-    return servo_center.moveToPosition(RESTPOSITION,SERVOSPEED);
+    return servo_center.moveToPosition(RESTPOSITION, SERVOSPEED);
 }
 
 bool loadThing_moveToLoadPos() {
-    return servo_center.moveToPosition(LOADPOSITION,SERVOSPEED);
+    return servo_center.moveToPosition(LOADPOSITION, SERVOSPEED);
 }
 
 bool loadThing_moveToUnloadPos(Network::receiveStates side) {  // side: true if left, false if right
     DBFUNCCALLln("::loadThing_moveToUnloadPos()");
     if (side == Network::receiveStates::dropLeft)
-        return servo_center.moveToPosition(UNLOADPOSITIONLEFT,SERVOSPEED);
+        return servo_center.moveToPosition(UNLOADPOSITIONLEFT, SERVOSPEED);
     else if (side == Network::receiveStates::dropRight)
-        return servo_center.moveToPosition(UNLOADPOSITIONRIGHT,SERVOSPEED);
+        return servo_center.moveToPosition(UNLOADPOSITIONRIGHT, SERVOSPEED);
     else
         DBERROR("error unloading");
 }
 
 bool loadThing_moveToDrivePos() {
-    return servo_center.moveToPosition(DRIVEPOSITION,SERVOSPEED);
+    return servo_center.moveToPosition(DRIVEPOSITION, SERVOSPEED);
 }

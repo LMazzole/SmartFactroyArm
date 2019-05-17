@@ -19,9 +19,9 @@
 #include "NetworkConfiguration.h"
 
 #include <SPI.h>
-#include "Adafruit_BLE.h"
-#include "Adafruit_BluefruitLE_SPI.h"
-#include "Adafruit_BluefruitLE_UART.h"
+// #include "Adafruit_BLE.h"
+// #include "Adafruit_BluefruitLE_SPI.h"
+// #include "Adafruit_BluefruitLE_UART.h"
 
 #if SOFTWARE_SERIAL_AVAILABLE
 #include <SoftwareSerial.h>
@@ -66,7 +66,7 @@ class Network {
 
     /**
      * @brief waits until connected to bluetooth, makes the connection
-     * 
+     *
      * @param name the name of the board (in Bluetooth), is obolete, since not used
      */
     void init(String name);
@@ -95,11 +95,11 @@ class Network {
      */
     bool sendTestMessage(String msg);
 
-    /**
-     * @brief can print information concerning bluetooth and connection
-     * 
-     */
-    void printInfo();
+    // /**
+    //  * @brief can print information concerning bluetooth and connection
+    //  *
+    //  */
+    // void printInfo();
 
     /**
      * @brief used to decode the enum values for receiveStates to human readable strings
@@ -118,8 +118,9 @@ class Network {
     String decodeSendStates(sendStates);
 
    private:
-    Adafruit_BluefruitLE_SPI ble;  ///< the connection element
-	/**
+    // Adafruit_BluefruitLE_SPI ble;  ///< the connection element
+
+    /**
      * @brief the function, that actually sends the message, used as helper function for sendMessage, etc.
      * 
 	 * @param msg the message, which will be sent
