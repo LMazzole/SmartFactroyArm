@@ -1,0 +1,164 @@
+[
+    {
+        "id": "45c2c004.f44fd",
+        "type": "tab",
+        "label": "toGoogleCloud",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "debc6af6.d66e28",
+        "type": "inject",
+        "z": "45c2c004.f44fd",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 140,
+        "y": 80,
+        "wires": [
+            [
+                "85a9e8f0.2cbdc8"
+            ]
+        ]
+    },
+    {
+        "id": "85a9e8f0.2cbdc8",
+        "type": "function",
+        "z": "45c2c004.f44fd",
+        "name": "",
+        "func": "msg.payload = {\n    timestamp : msg.payload/1000,\n    temperature : 44,\n    success : true,\n    device_id : 'pde-module-0002'\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 330,
+        "y": 80,
+        "wires": [
+            [
+                "2d05dc60.566164",
+                "24566014.c9952"
+            ]
+        ]
+    },
+    {
+        "id": "2d05dc60.566164",
+        "type": "debug",
+        "z": "45c2c004.f44fd",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 690,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "24566014.c9952",
+        "type": "google-iot-core out",
+        "z": "45c2c004.f44fd",
+        "name": "",
+        "qos": "",
+        "retain": "",
+        "broker": "62e72c55.d9c5a4",
+        "x": 700,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "8bff8e3.279417",
+        "type": "serial in",
+        "z": "45c2c004.f44fd",
+        "name": "connection To Arduino",
+        "serial": "",
+        "x": 120,
+        "y": 480,
+        "wires": [
+            [
+                "78de5c77.6c59a4"
+            ]
+        ]
+    },
+    {
+        "id": "78de5c77.6c59a4",
+        "type": "function",
+        "z": "45c2c004.f44fd",
+        "name": "processData",
+        "func": "var d = new Date().getTime()/1000;\n\n\nif(msg.payload === \"pickupSuccess(1)\")\n{\n    msg.payload = {\n    pickupSuccess : true,\n    timestamp : d\n    \n    }\n    return [msg];\n    \n}\nelse if(msg.payload === \"pickupSuccess(0)\")\n{\n    msg.payload = {\n    pickupSuccess : false,\n    timestamp : d\n    }\n    return [msg];\n    \n}\nelse if(msg.payload === \"dropSuccess(1)\")\n{\n    msg.payload = {\n    dropSuccess : true,\n    timestamp : d\n    }\n    return [msg];\n    \n}\nelse if(msg.payload === \"dropSuccess(0)\")\n{\n    msg.payload = {\n    dropSuccess : false,\n    timestamp : d\n    }\n    return [msg];\n}\n\n\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 390,
+        "y": 480,
+        "wires": [
+            [
+                "24566014.c9952",
+                "2d05dc60.566164"
+            ]
+        ]
+    },
+    {
+        "id": "45f75d28.a80a14",
+        "type": "inject",
+        "z": "45c2c004.f44fd",
+        "name": "",
+        "topic": "",
+        "payload": "pickupSuccess(1)",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 130,
+        "y": 540,
+        "wires": [
+            [
+                "78de5c77.6c59a4"
+            ]
+        ]
+    },
+    {
+        "id": "62e72c55.d9c5a4",
+        "type": "google-iot-core-broker",
+        "z": "",
+        "name": "",
+        "broker": "mqtt.googleapis.com",
+        "port": "443",
+        "tls": "72bf21e8.fc864",
+        "clientid": "projects/ageless-domain-239512/locations/europe-west1/registries/lego-projekt/devices/testDevice01",
+        "projectid": "ageless-domain-239512",
+        "registryid": "lego-projekt",
+        "deviceid": "testDevice01",
+        "region": "europe-west1",
+        "keepalive": "60",
+        "cleansession": true,
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "persistout": true,
+        "persistin": false,
+        "compactinterval": "30"
+    },
+    {
+        "id": "72bf21e8.fc864",
+        "type": "tls-config",
+        "z": "",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "pde_rsa_cert.pem",
+        "keyname": "pde_rsa_private.pem",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": true
+    }
+]
