@@ -43,7 +43,8 @@ class Network {
         dropLeft = 2,          ///< signal: drop(0)
         dropRight = 3,         ///< signal: drop(0)
         error = 4,             ///< signal: error
-        resume = 5             ///< signal: resume
+        resume = 5,            ///< signal: resume
+        reset = 6              ///< signal: reset
     };
 
     /**

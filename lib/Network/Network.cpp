@@ -56,7 +56,7 @@ Network::receiveStates Network::receiveAndAnalyse() {
     // String msg = ble.buffer;  // received message
 
     String msg = Serial.readString();
-    if (msg == String("")) {  //Compare with what?
+    if (msg.length() == 0) {  //Compare with what?
         // no data
         return receiveStates::nothingReceived;
     }
@@ -73,6 +73,8 @@ Network::receiveStates Network::receiveAndAnalyse() {
         return receiveStates::error;
     else if (msg == "resume")
         return receiveStates::resume;
+    else if (msg == "reset")
+        return receiveStates::reset;
     else {
         DBINFO1ln("unknown message");  // TODO log unknown message received
         return receiveStates::nothingReceived;
@@ -105,7 +107,7 @@ bool Network::sendTestMessage(String msg) {
 }
 
 bool Network::sendString(String msg) {
-    Serial.print(msg);
+    Serial.println(msg);
 
     // ble.print("AT+BLEUARTTX=");
     // ble.println(msg);

@@ -19,3 +19,5 @@ const int PIN_LB_SENSOR_RIGHT = 9;    ///< Sensor Lightbarrier right side
 const int PIN_LED_SENSOR_RIGHT = 11;  ///< LED indicator right side
 const int PIN_SERVO = 5;              ///< Servo Center
 /////////////////////////////////////
+
+const int WAITFORCHECK = 1000;

@@ -31,7 +31,8 @@ Sensor sensorLinks(PIN_LB_SENSOR_LEFT, PIN_LED_SENSOR_LEFT);     ///< Sensor on 
 Sensor sensorRechts(PIN_LB_SENSOR_RIGHT, PIN_LED_SENSOR_RIGHT);  ///< Sensor on right side, Servo(int pin, int maxPulse, int minPulse);
 Network networkObj;                                              ///< Object of network communication
 Network::receiveStates currentMessage;                           ///< saves the current received Message, which is in work now
-
+unsigned long currentMillis = 0;                                 ///< will store current time
+unsigned long previousMillis = 0;                                ///< will store last time
 //=========FUNCTION-PROTOTYP=========
 /**
  * @brief first state, on boot
@@ -89,6 +90,8 @@ bool stat_loadThing();
  */
 bool stat_error();
 
+bool stat_reset();
+
 /**
  * @brief fifth state, after signal for drop package
  *
@@ -129,6 +132,15 @@ bool loadThing_moveToLoadPos();
 bool loadThing_moveToUnloadPos(Network::receiveStates side);
 
 /**
+ * @brief 
+ * 
+ * @param side - 
+ * @return true - 
+ * @return false - 
+ */
+bool loadThing_moveToDropPos(Network::receiveStates side);
+
+/**
  * @brief moving arm to drive position, position at which the package is in the tray and save for driving
  *
  * @return true if in position
@@ -159,6 +171,9 @@ void setup() {
     // networkObj.init("ZellwegerBettinaglioMazzoleni");
 
     funcPoint = stat_getToRestPosition;
+    delay(100);
+    DBSTATUSln("Setup");
+    DBERROR("Setup");
 }
 
 /**
@@ -173,12 +188,12 @@ void loop() {
     DBFUNCCALLln("::loop()");
     // funcPoint = testing;
     funcPoint();
-    delay(500);
+    // delay(500);
 }
 
 bool testing() {
     DBFUNCCALLln("::testing()");
-    switch (7) {
+    switch (5) {
         case 0:
             DBINFO1ln("No Testcase selected");
             delay(10000);
@@ -256,16 +271,22 @@ bool testing() {
         case 5: {
             DBINFO1ln("Servo TEST in Loop");
             int pos = 0;
-            while (!servo_center.moveToPosition(pos, 40)) {
+            while (!servo_center.moveToPosition(LOADPOSITION, 40)) {
             };
-            delay(5000);
-            pos = 90;
-            while (!servo_center.moveToPosition(pos, 30)) {
-            };
-            delay(5000);
-            pos = -90;
-            while (!servo_center.moveToPosition(pos, 40)) {
-            };
+            // delay(5000);
+            // // pos = 90;
+            // while (!servo_center.moveToPosition(UNLOADPOSITIONSENSORLEFT, 30)) {
+            // };
+            // delay(5000);
+            // while (!servo_center.moveToPosition(UNLOADPOSITIONRIGHT, 40)) {
+            // };
+            // delay(5000);
+            // // pos = 90;
+            // while (!servo_center.moveToPosition(UNLOADPOSITIONSENSORRIGHT, 30)) {
+            // };
+            // // pos = -90;
+            // while (!servo_center.moveToPosition(pos, 40)) {
+            // };
             delay(5000);
         } break;
         case 6: {
@@ -311,7 +332,7 @@ bool stat_getToRestPosition() {
 
 bool stat_waitingForSignal() {
     DBFUNCCALLln("::stat_waitingForSignal()");
-    DBSTATUSln("Wait for Signal");
+    DBSTATUSln("Wait for Signal loading");
     Network::receiveStates rec = networkObj.receiveAndAnalyse();
     if (rec == Network::receiveStates::nothingReceived)
         return false;
@@ -327,6 +348,7 @@ bool stat_waitingForSignal() {
         DBINFO1("currentMessage: ");
         DBINFO1ln(networkObj.decodeReceiveStates(currentMessage));
         funcPoint = stat_loadThing;
+        substate = 0;
         return true;
     }
     // TODO more specific???
@@ -349,29 +371,37 @@ bool stat_loadThing() {  // must be in rest position!
         bool hasThingSensed = false;
         switch (substate) {
             case 0:  // 1. move to load position
-                if (loadThing_moveToLoadPos())
+                if (loadThing_moveToLoadPos()) {
                     substate = 1;
+                    previousMillis = millis();
+                }
                 break;
-            case 1:                                                        // 2. check sensor value
-                if (currentMessage == Network::receiveStates::pickupLeft)  // left loading ramp
-                {
-                    DBERROR("wrong side chosen ;)");
-                } else if (currentMessage == Network::receiveStates::pickupRight)  // right loading ramp
-                    hasThingSensed = sensorRechts.hasThing();
-                else
-                    DBINFO1ln("not expected message");  // TODO wrong rampside value
-
-                if (hasThingSensed == true)
-                    substate = 2;
-                else {
-                    networkObj.sendMessage(Network::sendStates::pickupFailure);  // TODO what to do?
-                    substate = 0;
-                    funcPoint = stat_error;
+            case 1:  // 2. check sensor value
+                currentMillis = millis();
+                if ((currentMillis - previousMillis) > WAITFORCHECK) {  //only publish all xx seconds
+                    previousMillis = millis();
+                    if (currentMessage == Network::receiveStates::pickupLeft)  // left loading ramp
+                    {
+                        DBERROR("wrong side chosen ;)");
+                    } else if (currentMessage == Network::receiveStates::pickupRight)  // right loading ramp
+                        hasThingSensed = sensorRechts.hasThing();
+                    else {
+                        DBINFO1ln("not expected message");  // TODO wrong rampside value
+                    }
+                    if (hasThingSensed == true)
+                        substate = 2;
+                    else {
+                        DBERROR("pickupFailure");
+                        networkObj.sendMessage(Network::sendStates::pickupFailure);  // TODO what to do?
+                        substate = 0;
+                        funcPoint = stat_error;
+                    }
                 }
                 break;
             case 2:  //  3. move to drive position
-                if (loadThing_moveToDrivePos())
+                if (loadThing_moveToDrivePos()) {
                     substate = 3;
+                }
                 break;
             case 3:  // 4. emit signal READYNOW
                 networkObj.sendMessage(Network::sendStates::pickupSuccess);
@@ -389,8 +419,7 @@ bool stat_loadThing() {  // must be in rest position!
 
 bool stat_waitingForSignal2() {
     DBFUNCCALLln("::stat_waitingForSignal2()");
-    DBSTATUSln("Wait for Signal2");
-    DBERROR("");
+    DBSTATUSln("Wait for Signal2 unloading");
     Network::receiveStates rec = networkObj.receiveAndAnalyse();
     if (rec == Network::receiveStates::nothingReceived) {
         return false;
@@ -422,30 +451,46 @@ bool stat_unloadThing() {
         bool hasThingEjected = false;
         switch (substate) {
             case 0:  // 1. move to unload position
-                if (loadThing_moveToUnloadPos(currentMessage))
+                if (loadThing_moveToUnloadPos(currentMessage)) {
                     substate = 1;
+                    previousMillis = millis();
+                }
                 break;
-            case 1:                                                      // 2. check sensor value
-                if (currentMessage == Network::receiveStates::dropLeft)  // eject left
-                    hasThingEjected = !sensorLinks.hasThing();
-                else if (currentMessage == Network::receiveStates::dropRight)  // eject right
-                    hasThingEjected = !sensorRechts.hasThing();
-                else
-                    DBINFO1ln("unexpected 2 message");  // TODO wrong rampside value
+            case 1:  // 2. check sensor value
+                currentMillis = millis();
+                if ((currentMillis - previousMillis) > WAITFORCHECK) {  //only publish all xx seconds
+                    previousMillis = millis();
+                    if (currentMessage == Network::receiveStates::dropLeft)  // eject left
+                    {
+                        hasThingEjected = sensorLinks.hasThing();
+                    } else if (currentMessage == Network::receiveStates::dropRight)  // eject right
+                    {
+                        hasThingEjected = sensorRechts.hasThing();
+                    } else {
+                        DBINFO1ln("unexpected 2 message");  // TODO wrong rampside value
+                    }
 
-                if (hasThingEjected == true)
-                    substate = 2;
-                else {
-                    networkObj.sendMessage(Network::sendStates::dropFailure);  // TODO what to do?
-                    substate = 0;
-                    funcPoint = stat_error;
+                    if (hasThingEjected == true) {
+                        substate = 2;
+                    } else {
+                        DBERROR("dropFailure");
+                        networkObj.sendMessage(Network::sendStates::dropFailure);  // TODO what to do?
+                        substate = 0;
+                        funcPoint = stat_error;
+                    }
                 }
                 break;
             case 2:  //  3. move to rest position
-                if (unloadThing_moveToRestPos())
+                if (loadThing_moveToDropPos(currentMessage)) {
                     substate = 3;
+                }
                 break;
-            case 3:  // 4. emit signal READYNOW
+            case 3:  //  3. move to rest position
+                if (unloadThing_moveToRestPos()) {
+                    substate = 4;
+                }
+                break;
+            case 4:  // 4. emit signal READYNOW
                 networkObj.sendMessage(Network::sendStates::dropSuccess);
                 substate = 0;
                 funcPoint = stat_waitingForSignal;
@@ -460,11 +505,39 @@ bool stat_unloadThing() {
 
 bool stat_error() {
     DBFUNCCALLln("::stat_error()");
-    DBSTATUSln("Wait for Signal");
+    DBSTATUSln("ErrorState");
     Network::receiveStates rec = networkObj.receiveAndAnalyse();
-    if (rec == Network::receiveStates::nothingReceived)
+    if (rec == Network::receiveStates::nothingReceived) {
         return false;
-    else if (rec == Network::receiveStates::resume) {
+    } else if (rec == Network::receiveStates::resume) {
+        currentMessage = rec;
+        DBINFO1("currentMessage: ");
+        DBINFO1ln(networkObj.decodeReceiveStates(currentMessage));
+        funcPoint = stat_getToRestPosition;
+        return true;
+    } else if (rec == Network::receiveStates::reset) {
+        currentMessage = rec;
+        DBINFO1("currentMessage: ");
+        DBINFO1ln(networkObj.decodeReceiveStates(currentMessage));
+        funcPoint = stat_reset;
+        return true;
+    } else {
+        currentMessage = rec;
+        DBINFO1("currentMessage: ");
+        DBINFO1ln(networkObj.decodeReceiveStates(currentMessage));
+        return false;
+    }
+}
+
+bool stat_reset() {
+    DBFUNCCALLln("::stat_reset()");
+    DBSTATUSln("ResetState");
+    Network::receiveStates rec = networkObj.receiveAndAnalyse();
+    servo_center.moveToPosition(LOADPOSITION, SERVOSPEED);
+
+    if (rec == Network::receiveStates::nothingReceived) {
+        return false;
+    } else if (rec == Network::receiveStates::resume) {
         currentMessage = rec;
         DBINFO1("currentMessage: ");
         DBINFO1ln(networkObj.decodeReceiveStates(currentMessage));
@@ -474,6 +547,7 @@ bool stat_error() {
         currentMessage = rec;
         DBINFO1("currentMessage: ");
         DBINFO1ln(networkObj.decodeReceiveStates(currentMessage));
+
         return false;
     }
 }
@@ -488,12 +562,24 @@ bool loadThing_moveToLoadPos() {
 
 bool loadThing_moveToUnloadPos(Network::receiveStates side) {  // side: true if left, false if right
     DBFUNCCALLln("::loadThing_moveToUnloadPos()");
-    if (side == Network::receiveStates::dropLeft)
-        return servo_center.moveToPosition(UNLOADPOSITIONLEFT, SERVOSPEED);
-    else if (side == Network::receiveStates::dropRight)
-        return servo_center.moveToPosition(UNLOADPOSITIONRIGHT, SERVOSPEED);
-    else
+    if (side == Network::receiveStates::dropLeft) {
+        return servo_center.moveToPosition(UNLOADPOSITIONSENSORLEFT, SERVOSPEED);
+    } else if (side == Network::receiveStates::dropRight) {
+        return servo_center.moveToPosition(UNLOADPOSITIONSENSORRIGHT, SERVOSPEED);
+    } else {
         DBERROR("error unloading");
+    }
+}
+
+bool loadThing_moveToDropPos(Network::receiveStates side) {  // side: true if left, false if right
+    DBFUNCCALLln("::loadThing_moveToUnloadPos()");
+    if (side == Network::receiveStates::dropLeft) {
+        return servo_center.moveToPosition(UNLOADPOSITIONLEFT, SERVOSPEED);
+    } else if (side == Network::receiveStates::dropRight) {
+        return servo_center.moveToPosition(UNLOADPOSITIONRIGHT, SERVOSPEED);
+    } else {
+        DBERROR("error unloading");
+    }
 }
 
 bool loadThing_moveToDrivePos() {
