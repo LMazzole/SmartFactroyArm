@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['minimum_5ffirmware_5fversion',['MINIMUM_FIRMWARE_VERSION',['../_network_8h.html#a11e674e9b958aa147644ac2faec3e116',1,'Network.h']]]
+  ['verbose_5fmode',['VERBOSE_MODE',['../_network_configuration_8h.html#ad5755cfbc5c4b61d5a5b88782eee01e8',1,'NetworkConfiguration.h']]]
 ];

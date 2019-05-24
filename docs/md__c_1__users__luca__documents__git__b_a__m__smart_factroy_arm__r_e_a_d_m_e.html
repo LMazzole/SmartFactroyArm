@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.15"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>SmartFactory - Arm: Class Members - Enumerator</title>
+<title>SmartFactory - Arm: Smart Factory - Arm</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -66,7 +66,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('functions_eval.html','');});
+$(document).ready(function(){initNavTree('md__c_1__users__luca__documents__git__b_a__m__smart_factroy_arm__r_e_a_d_m_e.html','');});
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -84,45 +84,47 @@ $(document).ready(function(){initNavTree('functions_eval.html','');});
 </iframe>
 </div>
 
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">Smart Factory - Arm </div>  </div>
+</div><!--header-->
 <div class="contents">
-&#160;<ul>
-<li>dropFailure
-: <a class="el" href="class_network.html#afb4ce0ad59cea6fe28e6dc8cf97818d2a1a7fc46728099329a84e18a0c265fe71">Network</a>
-</li>
-<li>dropLeft
-: <a class="el" href="class_network.html#aafa708ccec65c97a94c85ba07d0244d9a091727edfa5c3ee463747ad38150003f">Network</a>
-</li>
-<li>dropRight
-: <a class="el" href="class_network.html#aafa708ccec65c97a94c85ba07d0244d9a146d18dbc64c5efadc235d8c679b9643">Network</a>
-</li>
-<li>dropSuccess
-: <a class="el" href="class_network.html#afb4ce0ad59cea6fe28e6dc8cf97818d2a80ff52f4819e5b7b73856797ccc89c7a">Network</a>
-</li>
-<li>error
-: <a class="el" href="class_network.html#aafa708ccec65c97a94c85ba07d0244d9a12d8d055d9a9379f5079bb00bd8932ce">Network</a>
-</li>
-<li>nothingReceived
-: <a class="el" href="class_network.html#aafa708ccec65c97a94c85ba07d0244d9a574c8e08caf96a074830e0672c0327ea">Network</a>
-</li>
-<li>pickupFailure
-: <a class="el" href="class_network.html#afb4ce0ad59cea6fe28e6dc8cf97818d2a8e11f010a4e96a414d23ad6dc46ec087">Network</a>
-</li>
-<li>pickupLeft
-: <a class="el" href="class_network.html#aafa708ccec65c97a94c85ba07d0244d9af792c5d805df211a00b1b784e6cce906">Network</a>
-</li>
-<li>pickupRight
-: <a class="el" href="class_network.html#aafa708ccec65c97a94c85ba07d0244d9a3edd038ca45374903388ce5ece963a58">Network</a>
-</li>
-<li>pickupSuccess
-: <a class="el" href="class_network.html#afb4ce0ad59cea6fe28e6dc8cf97818d2a7652b90adfc46254357e63c0d43b4121">Network</a>
-</li>
-<li>reset
-: <a class="el" href="class_network.html#aafa708ccec65c97a94c85ba07d0244d9a824d1d7006f1c3c548a6714f9d41b08a">Network</a>
-</li>
-<li>resume
-: <a class="el" href="class_network.html#aafa708ccec65c97a94c85ba07d0244d9a8aa0c5dd80be46c16c724e7e02b4139b">Network</a>
-</li>
+<div class="textblock"><p>Im Rahmen des Moduls PLMSys soll ein einfaches IoT (Internet of Things) Produkt</p>
+<p>entwickelt und in Betrieb genommen werden, das die gesamte Kommunikations-</p>
+<p>Kette vom <a class="el" href="class_sensor.html">Sensor</a> in die Cloud (IoT Stack) und schliesslich in einem PLM System</p>
+<p>kommuniziert. Auf diese Weise wird über das Semester die gesamte Prozesskette</p>
+<p>des Closed-Loop-PLM (Design – Produktion – Nutzung – Feedback ins Design) einmal</p>
+<p>durchlaufen.</p>
+<h2>Problemstellung</h2>
+<p>Für die Sortieranlage Soritc 150 ist ein neues Modul zu entwickeln. Neben der aktuellen</p>
+<p>«High-End» Variante mit einem Roboterarm zum Aufnehmen und ablegen der</p>
+<p>Objekte soll eine kostengünstige, einfache Variante angeboten werden.</p>
+<p>Das zu entwickelnde Modul muss 100% mit der aktuellen Plattform kompatibel sein.</p>
+<h2>Software</h2>
+<p><a href="https://platformio.org/platformio-ide">PlatformIo</a> for VSCode</p>
+<p><a href="http://www.doxygen.nl/">Doxygen</a> for Documentation</p>
+<h2>Hardware</h2>
+<p><a href="https://www.adafruit.com/product/2995">ADAFRUIT FEATHER M0 BLUEFRUIT LE</a></p>
+<p><a href="https://www.conrad.ch/de/p/modelcraft-standard-servo-rs-22-ymb-digital-servo-getriebe-material-metall-stecksystem-jr-209154.html">Modelcraft Standard-Servo RS-22 YMB Digital-Servo</a></p>
+<p><a href="http://wiki.seeedstudio.com/Grove-Digital_Distance_Interrupter_0.5_to_5cm-GP2Y0D805Z0F_P/">Grove - Digital Distance Interrupter 0.5 to 5cm</a></p>
+<h2>Lösung</h2>
+<h3>CAD Solution</h3>
+<img src="./doc/assembly.PNG" height="400" alt="" class="inline"/>
+<h3>Elektrisches Konzept</h3>
+<img src="./doc/Fritzing_Schaltplan.png" height="400" alt="" class="inline"/>
+<img src="./doc/Fritzing_Steckplatine.png" height="400" alt="" class="inline"/>
+<h3>Communication Overview</h3>
+<img src="./doc/CommOverview.png" height="400" alt="" class="inline"/>
+<img src="./doc/Ablauf_Kommunikatino.png" height="400" alt="" class="inline"/>
+<h3>FSM</h3>
+<img src="./doc/fsm_3.png" height="400" alt="" class="inline"/>
+<h2>Contributors</h2>
+<ul>
+<li>Luca Mazzoleni <a href="#" onclick="location.href='mai'+'lto:'+'luc'+'a.'+'maz'+'zo'+'len'+'i@'+'hsr'+'.c'+'h'; return false;">luca.<span style="display: none;">.nosp@m.</span>mazz<span style="display: none;">.nosp@m.</span>oleni<span style="display: none;">.nosp@m.</span>@hsr<span style="display: none;">.nosp@m.</span>.ch</a></li>
+<li>Luciano Bettinaglio <a href="#" onclick="location.href='mai'+'lto:'+'luc'+'ia'+'no.'+'be'+'tti'+'na'+'gli'+'o@'+'hsr'+'.c'+'h'; return false;">lucia<span style="display: none;">.nosp@m.</span>no.b<span style="display: none;">.nosp@m.</span>ettin<span style="display: none;">.nosp@m.</span>agli<span style="display: none;">.nosp@m.</span>o@hsr<span style="display: none;">.nosp@m.</span>.ch</a></li>
+<li>Patrick Zellweger <a href="#" onclick="location.href='mai'+'lto:'+'pat'+'ri'+'ck.'+'ze'+'llw'+'eg'+'er@'+'hs'+'r.c'+'h'; return false;">patri<span style="display: none;">.nosp@m.</span>ck.z<span style="display: none;">.nosp@m.</span>ellwe<span style="display: none;">.nosp@m.</span>ger@<span style="display: none;">.nosp@m.</span>hsr.c<span style="display: none;">.nosp@m.</span>h</a> </li>
 </ul>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

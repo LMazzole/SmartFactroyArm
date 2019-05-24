@@ -10,5 +10,6 @@ var _log_configuration_8h =
     [ "DBWARNING", "_log_configuration_8h.html#a0ff23a4b212ae8912ff37cfa0bde6c1e", null ],
     [ "DBWARNINGln", "_log_configuration_8h.html#a7685d06c4a136c1dd994845777060c5a", null ],
     [ "DEBUG_ERROR", "_log_configuration_8h.html#a49bce9dafa991fde5616257caa9e3c4a", null ],
-    [ "DEBUG_STATUS", "_log_configuration_8h.html#a04c63ab2d82d3f4b94883e1fb75e62f4", null ]
+    [ "DEBUG_STATUS", "_log_configuration_8h.html#a04c63ab2d82d3f4b94883e1fb75e62f4", null ],
+    [ "DEBUGGER", "_log_configuration_8h.html#a1a79d68958390ef0582f82cd2272a3a1", null ]
 ];

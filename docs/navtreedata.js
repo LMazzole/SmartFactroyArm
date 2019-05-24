@@ -24,7 +24,7 @@ for the JavaScript code in this file
 var NAVTREE =
 [
   [ "SmartFactory - Arm", "index.html", [
-    [ "Smart Factory - Arm", "md__v_1__git__smart_factroy_arm__r_e_a_d_m_e.html", null ],
+    [ "Smart Factory - Arm", "md__c_1__users__luca__documents__git__b_a__m__smart_factroy_arm__r_e_a_d_m_e.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],

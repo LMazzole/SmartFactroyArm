@@ -11,5 +11,5 @@ var searchData=
   ['dbwarningln',['DBWARNINGln',['../_log_configuration_8h.html#a7685d06c4a136c1dd994845777060c5a',1,'LogConfiguration.h']]],
   ['debug_5ferror',['DEBUG_ERROR',['../_log_configuration_8h.html#a49bce9dafa991fde5616257caa9e3c4a',1,'LogConfiguration.h']]],
   ['debug_5fstatus',['DEBUG_STATUS',['../_log_configuration_8h.html#a04c63ab2d82d3f4b94883e1fb75e62f4',1,'LogConfiguration.h']]],
-  ['driveposition',['DRIVEPOSITION',['../_position_configuration_8h.html#a39eda2a632c2a23ab2a2f7878bcb1694',1,'PositionConfiguration.h']]]
+  ['debugger',['DEBUGGER',['../_log_configuration_8h.html#a1a79d68958390ef0582f82cd2272a3a1',1,'LogConfiguration.h']]]
 ];

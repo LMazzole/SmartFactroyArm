@@ -7,7 +7,8 @@ var class_network =
       [ "dropLeft", "class_network.html#aafa708ccec65c97a94c85ba07d0244d9a091727edfa5c3ee463747ad38150003f", null ],
       [ "dropRight", "class_network.html#aafa708ccec65c97a94c85ba07d0244d9a146d18dbc64c5efadc235d8c679b9643", null ],
       [ "error", "class_network.html#aafa708ccec65c97a94c85ba07d0244d9a12d8d055d9a9379f5079bb00bd8932ce", null ],
-      [ "resume", "class_network.html#aafa708ccec65c97a94c85ba07d0244d9a8aa0c5dd80be46c16c724e7e02b4139b", null ]
+      [ "resume", "class_network.html#aafa708ccec65c97a94c85ba07d0244d9a8aa0c5dd80be46c16c724e7e02b4139b", null ],
+      [ "reset", "class_network.html#aafa708ccec65c97a94c85ba07d0244d9a824d1d7006f1c3c548a6714f9d41b08a", null ]
     ] ],
     [ "sendStates", "class_network.html#afb4ce0ad59cea6fe28e6dc8cf97818d2", [
       [ "pickupSuccess", "class_network.html#afb4ce0ad59cea6fe28e6dc8cf97818d2a7652b90adfc46254357e63c0d43b4121", null ],

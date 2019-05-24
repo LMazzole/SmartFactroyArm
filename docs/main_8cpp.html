@@ -122,6 +122,8 @@ Functions</h2></td></tr>
 <tr class="memitem:a002001169b7a258b52037ab2e65ca669"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a002001169b7a258b52037ab2e65ca669">stat_error</a> ()</td></tr>
 <tr class="memdesc:a002001169b7a258b52037ab2e65ca669"><td class="mdescLeft">&#160;</td><td class="mdescRight">error state  <a href="#a002001169b7a258b52037ab2e65ca669">More...</a><br /></td></tr>
 <tr class="separator:a002001169b7a258b52037ab2e65ca669"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a087ae31d7b384fbd324d15340b896009"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a087ae31d7b384fbd324d15340b896009">stat_reset</a> ()</td></tr>
+<tr class="separator:a087ae31d7b384fbd324d15340b896009"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81449de315b3639e87cbdc59bf05a679"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a81449de315b3639e87cbdc59bf05a679">stat_unloadThing</a> ()</td></tr>
 <tr class="memdesc:a81449de315b3639e87cbdc59bf05a679"><td class="mdescLeft">&#160;</td><td class="mdescRight">fifth state, after signal for drop package  <a href="#a81449de315b3639e87cbdc59bf05a679">More...</a><br /></td></tr>
 <tr class="separator:a81449de315b3639e87cbdc59bf05a679"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -134,6 +136,8 @@ Functions</h2></td></tr>
 <tr class="memitem:aa288f8a1b976fdeeb842633891125dc0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#aa288f8a1b976fdeeb842633891125dc0">loadThing_moveToUnloadPos</a> (<a class="el" href="class_network.html#aafa708ccec65c97a94c85ba07d0244d9">Network::receiveStates</a> side)</td></tr>
 <tr class="memdesc:aa288f8a1b976fdeeb842633891125dc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">moving arm to package loading position  <a href="#aa288f8a1b976fdeeb842633891125dc0">More...</a><br /></td></tr>
 <tr class="separator:aa288f8a1b976fdeeb842633891125dc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf8820ac714d9163c29fe5bebc7478d5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#abf8820ac714d9163c29fe5bebc7478d5">loadThing_moveToDropPos</a> (<a class="el" href="class_network.html#aafa708ccec65c97a94c85ba07d0244d9">Network::receiveStates</a> side)</td></tr>
+<tr class="separator:abf8820ac714d9163c29fe5bebc7478d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ea4a62239beabd3578a90fa0c2d2b68"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a2ea4a62239beabd3578a90fa0c2d2b68">loadThing_moveToDrivePos</a> ()</td></tr>
 <tr class="memdesc:a2ea4a62239beabd3578a90fa0c2d2b68"><td class="mdescLeft">&#160;</td><td class="mdescRight">moving arm to drive position, position at which the package is in the tray and save for driving  <a href="#a2ea4a62239beabd3578a90fa0c2d2b68">More...</a><br /></td></tr>
 <tr class="separator:a2ea4a62239beabd3578a90fa0c2d2b68"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,6 +174,12 @@ Variables</h2></td></tr>
 <tr class="memitem:adc61c0ff2d3652616bcf019163f6eebd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_network.html#aafa708ccec65c97a94c85ba07d0244d9">Network::receiveStates</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#adc61c0ff2d3652616bcf019163f6eebd">currentMessage</a></td></tr>
 <tr class="memdesc:adc61c0ff2d3652616bcf019163f6eebd"><td class="mdescLeft">&#160;</td><td class="mdescRight">saves the current received Message, which is in work now  <a href="#adc61c0ff2d3652616bcf019163f6eebd">More...</a><br /></td></tr>
 <tr class="separator:adc61c0ff2d3652616bcf019163f6eebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0cbaf532dc7817c544d33554786336b"><td class="memItemLeft" align="right" valign="top">unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#ae0cbaf532dc7817c544d33554786336b">currentMillis</a> = 0</td></tr>
+<tr class="memdesc:ae0cbaf532dc7817c544d33554786336b"><td class="mdescLeft">&#160;</td><td class="mdescRight">will store current time  <a href="#ae0cbaf532dc7817c544d33554786336b">More...</a><br /></td></tr>
+<tr class="separator:ae0cbaf532dc7817c544d33554786336b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86027ad9c9159f02624d136fb63364fe"><td class="memItemLeft" align="right" valign="top">unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a86027ad9c9159f02624d136fb63364fe">previousMillis</a> = 0</td></tr>
+<tr class="memdesc:a86027ad9c9159f02624d136fb63364fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">will store last time  <a href="#a86027ad9c9159f02624d136fb63364fe">More...</a><br /></td></tr>
+<tr class="separator:a86027ad9c9159f02624d136fb63364fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains the FSM of the SmartFactory Arm. </p>
@@ -203,7 +213,36 @@ Variables</h2></td></tr>
 <dd>
 false if not in position </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00499">499</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00592">592</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+
+</div>
+</div>
+<a id="abf8820ac714d9163c29fe5bebc7478d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf8820ac714d9163c29fe5bebc7478d5">&#9670;&nbsp;</a></span>loadThing_moveToDropPos()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool loadThing_moveToDropPos </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_network.html#aafa708ccec65c97a94c85ba07d0244d9">Network::receiveStates</a>&#160;</td>
+          <td class="paramname"><em>side</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">side</td><td>- </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true - </dd>
+<dd>
+false - </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00581">581</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -227,7 +266,7 @@ false if not in position </dd></dl>
 <dd>
 false if not in position </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00485">485</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00566">566</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -258,7 +297,7 @@ false if not in position </dd></dl>
 <dd>
 false if not in position </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00489">489</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00570">570</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -280,7 +319,7 @@ false if not in position </dd></dl>
 <p>one loop per cycle (SB full -&gt; transported -&gt; returned empty) </p>
 <p>After creating a <a class="el" href="main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="for initialisation of the Board">setup()</a> function, which initializes and sets the initial values, the <a class="el" href="main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" title="one loop per cycle (SB full -&gt; transported -&gt; returned empty)">loop()</a> function does precisely what its name suggests, and loops consecutively, allowing your program to change and respond. Use it to actively control the board. </p>
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00172">172</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00187">187</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -302,7 +341,7 @@ false if not in position </dd></dl>
 <p>for initialisation of the Board </p>
 <p>Use it to initialize variables, pin modes, start using libraries, etc. The <a class="el" href="main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="for initialisation of the Board">setup()</a> function will only run once, after each powerup or reset of the board </p>
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00156">156</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00168">168</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -326,7 +365,7 @@ false if not in position </dd></dl>
 <dd>
 false - stay in state </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00461">461</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00513">513</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -354,7 +393,7 @@ false - stay in state </dd></dl>
 <dd>
 false if in state </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00301">301</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00322">322</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -384,7 +423,26 @@ false if in state </dd></dl>
 <dd>
 false if in state </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00335">335</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00357">357</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a087ae31d7b384fbd324d15340b896009"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a087ae31d7b384fbd324d15340b896009">&#9670;&nbsp;</a></span>stat_reset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool stat_reset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00539">539</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -414,7 +472,7 @@ false if in state </dd></dl>
 <dd>
 false if in state </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00414">414</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00447">447</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -441,7 +499,7 @@ false if in state </dd></dl>
 <dd>
 false if in state </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00312">312</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00333">333</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -468,7 +526,7 @@ false if in state </dd></dl>
 <dd>
 false if in state </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00390">390</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00424">424</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -490,7 +548,7 @@ false if in state </dd></dl>
 <p>testing function for testing components </p>
 <p>switch statement to select test cases </p>
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00179">179</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00194">194</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -514,7 +572,7 @@ false if in state </dd></dl>
 <dd>
 false if not in position </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00481">481</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00562">562</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -534,6 +592,24 @@ false if not in position </dd></dl>
 <p>saves the current received Message, which is in work now </p>
 
 <p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00033">33</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ae0cbaf532dc7817c544d33554786336b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0cbaf532dc7817c544d33554786336b">&#9670;&nbsp;</a></span>currentMillis</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned long currentMillis = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>will store current time </p>
+
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00034">34</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -570,6 +646,24 @@ false if not in position </dd></dl>
 <p>Object of network communication. </p>
 
 <p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00032">32</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a86027ad9c9159f02624d136fb63364fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86027ad9c9159f02624d136fb63364fe">&#9670;&nbsp;</a></span>previousMillis</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned long previousMillis = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>will store last time </p>
+
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00035">35</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
