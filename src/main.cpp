@@ -378,16 +378,18 @@ bool stat_loadThing() {  // must be in rest position!
                 break;
             case 1:  // 2. check sensor value
                 currentMillis = millis();
+
+                if (currentMessage == Network::receiveStates::pickupLeft)  // left loading ramp
+                {
+                    DBERROR("wrong side chosen ;)");
+                } else if (currentMessage == Network::receiveStates::pickupRight)  // right loading ramp
+                    hasThingSensed = sensorRechts.hasThing();
+                else {
+                    DBINFO1ln("not expected message");  // TODO wrong rampside value
+                }
+
                 if ((currentMillis - previousMillis) > WAITFORCHECK) {  //only publish all xx seconds
                     previousMillis = millis();
-                    if (currentMessage == Network::receiveStates::pickupLeft)  // left loading ramp
-                    {
-                        DBERROR("wrong side chosen ;)");
-                    } else if (currentMessage == Network::receiveStates::pickupRight)  // right loading ramp
-                        hasThingSensed = sensorRechts.hasThing();
-                    else {
-                        DBINFO1ln("not expected message");  // TODO wrong rampside value
-                    }
                     if (hasThingSensed == true)
                         substate = 2;
                     else {
@@ -400,6 +402,8 @@ bool stat_loadThing() {  // must be in rest position!
                 break;
             case 2:  //  3. move to drive position
                 if (loadThing_moveToDrivePos()) {
+                    sensorRechts.hasThing();
+                    sensorLinks.hasThing();
                     substate = 3;
                 }
                 break;
@@ -458,18 +462,19 @@ bool stat_unloadThing() {
                 break;
             case 1:  // 2. check sensor value
                 currentMillis = millis();
+
+                if (currentMessage == Network::receiveStates::dropLeft)  // eject left
+                {
+                    hasThingEjected = sensorLinks.hasThing();
+                } else if (currentMessage == Network::receiveStates::dropRight)  // eject right
+                {
+                    hasThingEjected = sensorRechts.hasThing();
+                } else {
+                    DBINFO1ln("unexpected 2 message");  // TODO wrong rampside value
+                }
+
                 if ((currentMillis - previousMillis) > WAITFORCHECK) {  //only publish all xx seconds
                     previousMillis = millis();
-                    if (currentMessage == Network::receiveStates::dropLeft)  // eject left
-                    {
-                        hasThingEjected = sensorLinks.hasThing();
-                    } else if (currentMessage == Network::receiveStates::dropRight)  // eject right
-                    {
-                        hasThingEjected = sensorRechts.hasThing();
-                    } else {
-                        DBINFO1ln("unexpected 2 message");  // TODO wrong rampside value
-                    }
-
                     if (hasThingEjected == true) {
                         substate = 2;
                     } else {
@@ -483,6 +488,8 @@ bool stat_unloadThing() {
             case 2:  //  3. move to rest position
                 if (loadThing_moveToDropPos(currentMessage)) {
                     substate = 3;
+                    sensorRechts.hasThing();
+                    sensorLinks.hasThing();
                 }
                 break;
             case 3:  //  3. move to rest position
