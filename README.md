@@ -32,7 +32,7 @@ Das zu entwickelnde Modul muss 100% mit der aktuellen Plattform kompatibel sein.
 ## Lösung 
 ### CAD  Solution
 
-<img src="./doc/assembly.PNG" height="400" />
+<img src="./doc/Assembly.PNG" height="400" />
 
 ### Elektrisches Konzept
 
