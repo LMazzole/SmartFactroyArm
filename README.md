@@ -15,8 +15,6 @@ Objekte soll eine kostengünstige, einfache Variante angeboten werden.
 
 Das zu entwickelnde Modul muss 100% mit der aktuellen Plattform kompatibel sein.
 
-
-
 ## Software
 
  [PlatformIo](https://platformio.org/platformio-ide)  for VSCode
@@ -31,7 +29,25 @@ Das zu entwickelnde Modul muss 100% mit der aktuellen Plattform kompatibel sein.
 
 [Grove - Digital Distance Interrupter 0.5 to 5cm](http://wiki.seeedstudio.com/Grove-Digital_Distance_Interrupter_0.5_to_5cm-GP2Y0D805Z0F_P/)
 
+## Lösung 
+### CAD  Solution
 
+<img src="./doc/assembly.PNG" height="400" />
+
+### Elektrisches Konzept
+
+<img src="./doc/Fritzing_Schaltplan.png" height="400"/> 
+
+<img src="./doc/Fritzing_Steckplatine.png" height="400" />
+
+### Communication Overview
+
+<img src="./doc/CommOverview.png" height="400" />
+
+<img src="./doc/Ablauf_Kommunikatino.png" height="400" />
+
+### FSM
+<img src="./doc/fsm_3.png" height="400" />
 
 ## Contributors
 

@@ -50,8 +50,8 @@ class Sensor {
     bool hasThing();
 
    private:
-    const int psensorPin;
-    const int pledPin;
+    const int psensorPin;  ///< Pin where the Sensor is connected
+    const int pledPin;     ///< Pin where the LED is connected
 };
 
 #endif
