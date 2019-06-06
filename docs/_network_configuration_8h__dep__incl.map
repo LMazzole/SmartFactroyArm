@@ -1,0 +1,6 @@
+<map id="NetworkConfiguration.h" name="NetworkConfiguration.h">
+<area shape="rect" id="node1" title=" " alt="" coords="30,5,185,32"/>
+<area shape="rect" id="node2" href="$_network_8h.html" title="handles network connections over bluetooth and signals passed by the Raspberry Pi" alt="" coords="67,80,147,107"/>
+<area shape="rect" id="node3" href="$_network_8cpp.html" title=" " alt="" coords="5,155,100,181"/>
+<area shape="rect" id="node4" href="$main_8cpp.html" title="Contains the FSM of the SmartFactory Arm." alt="" coords="125,155,199,181"/>
+</map>

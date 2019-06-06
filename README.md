@@ -49,6 +49,9 @@ Das zu entwickelnde Modul muss 100% mit der aktuellen Plattform kompatibel sein.
 ### FSM
 <img src="./doc/fsm_3.png" height="400" />
 
+### Dependencie graph 
+[<img src="./docs/main_8cpp__incl.png" height="200" />](file:///V:/Git/SmartFactroyArm/docs/main_8cpp.html)
+
 ## Contributors
 
 - Luca Mazzoleni luca.mazzoleni@hsr.ch
